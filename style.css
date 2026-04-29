@@ -69,7 +69,6 @@ body {
 
 h2 { font-family: 'Benzin', sans-serif; }
 
-
 /* ============================================
    HERO — секция и двухколоночная структура
    ============================================ */
@@ -338,7 +337,6 @@ h2 { font-family: 'Benzin', sans-serif; }
 
 .btn.order:active { transform: translateY(0) scale(0.98); }
 
-
 /* ============================================
    HERO — анимированный фон (волны)
    ============================================ */
@@ -377,7 +375,6 @@ h2 { font-family: 'Benzin', sans-serif; }
 @keyframes waveMove3 { 0% { transform: translateY(0); } 100% { transform: translateY(-10px); } }
 @keyframes waveMove4 { 0% { transform: translateY(0); } 100% { transform: translateY(6px); } }
 @keyframes waveMove5 { 0% { transform: translateY(0); } 100% { transform: translateY(-14px); } }
-
 
 /* ============================================
    NAVBAR
@@ -617,7 +614,6 @@ h2 { font-family: 'Benzin', sans-serif; }
 
 .mobile-menu a:hover { background: var(--button-bg); }
 
-
 /* ============================================
    КНОПКИ
    ============================================ */
@@ -696,7 +692,6 @@ h2 { font-family: 'Benzin', sans-serif; }
 .btn-text-full  { display: inline; }
 .btn-text-short { display: none; }
 
-
 /* ============================================
    FOOTER
    ============================================ */
@@ -730,7 +725,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   font-weight: inherit;
   color: inherit;
 }
-
 
 /* ============================================
    ABOUT — обо мне
@@ -800,14 +794,14 @@ h2 { font-family: 'Benzin', sans-serif; }
   transition-delay: 0.5s;
 }
 
-
 /* ============================================
    PORTFOLIO
    ============================================ */
+.portfolio { padding: 80px 20px; }
+
 .portfolio-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 20px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -826,8 +820,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   gap: 24px;
   margin-top: 40px;
 }
-
-
 
 .portfolio-card {
   background: var(--card-bg);
@@ -871,7 +863,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   min-height: 0; /* важно для flex */
 }
 
-
 /* Неоновое свечение карточки при hover */
 .portfolio-card:hover {
   border-color: #9333ea;
@@ -910,15 +901,15 @@ h2 { font-family: 'Benzin', sans-serif; }
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
-
 /* ============================================
    PRICING (контейнер, тарифы calc-* — в voiceprice.css)
    ============================================ */
+.pricing { padding: 80px 20px; }
+
 .pricing-wrapper {
   min-height: 50vh;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 80px 20px;
   text-align: center;
   position: relative;
   z-index: 1;
@@ -934,7 +925,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   opacity: 0.7;
   line-height: 1.4;
 }
-
 
 /* ============================================
    REVIEWS
@@ -1028,7 +1018,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   opacity: 0.9;
 }
 
-
 /* ============================================
    FAQ
    ============================================ */
@@ -1121,11 +1110,9 @@ h2 { font-family: 'Benzin', sans-serif; }
   opacity: 1;
 }
 
-
 /* ============================================
    CONTACTS
    ============================================ */
-.contacts { padding: 80px 20px; }
 
 .contacts-wrapper {
   max-width: 1200px;
@@ -1331,7 +1318,6 @@ h2 { font-family: 'Benzin', sans-serif; }
               0 0 35px rgba(139, 92, 246, 0.2);
   transform: translateY(-2px);
 }
-
 
 /* ============================================
    AUDIO DEMOS — два плеера в одной строке
@@ -1546,12 +1532,10 @@ h2 { font-family: 'Benzin', sans-serif; }
   color: rgba(255, 255, 255, 0.9);
 }
 
-
 /* ============================================
    КАРУСЕЛЬНЫЕ ТОЧКИ-ИНДИКАТОРЫ
    ============================================ */
 .carousel-dots { display: none; }
-
 
 /* ============================================
    МЕДИА-ЗАПРОСЫ
@@ -1792,7 +1776,7 @@ h2 { font-family: 'Benzin', sans-serif; }
 }
 
 /* — 600px: компактный HERO + аудиоплееры */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .hero-section { padding: 90px 16px 30px; }
 
   .hero-media__img { max-width: 260px; }
@@ -1874,8 +1858,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   .portfolio-card,
   .review-card { flex: 0 0 calc(100% - 32px); }
 }
-
-
 
 /* ============================================================================
    КАЛЬКУЛЯТОР И ТАРИФЫ — стили вынесены из voiceprice.css
@@ -2217,8 +2199,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   50% { transform: scale(1.5); }
 }
 
-
-
 .calc-result-container {
   background: rgba(139, 92, 246, 0.1);
   border: 2px solid rgba(139, 92, 246, 0.3);
@@ -2407,8 +2387,6 @@ h2 { font-family: 'Benzin', sans-serif; }
     font-size: 0.9rem;
   }
 }
-
-
 
 /* ============================================ */
 /* ЗОНА ЗАГРУЗКИ ФАЙЛА */
@@ -2604,9 +2582,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   align-items: center;
   justify-content: center;
 }
-
-
-
 
 /* Mobile */
 @media (max-width: 768px) {
@@ -2930,7 +2905,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   font-size: 0.8rem;
   opacity: 0.7;
 }
-
 
 /* Mobile */
 @media (max-width: 768px) {
