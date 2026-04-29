@@ -9,9 +9,6 @@ if (window.location.hash) {
 }
 window.scrollTo(0, 0);
 
-
-
-
 // Получаем элемент
 const mobileMenu = document.getElementById('mobileMenu');
 const burger      = document.querySelector('.burger');
@@ -70,8 +67,6 @@ window.addEventListener('resize', () => {
   }
 });
 
-
-
 // Анимация появления отзывов с рандомным порядком
 const reviewCards = document.querySelectorAll('.review-card');
 
@@ -98,7 +93,6 @@ if (reviewCards.length) {
   reviewCards.forEach(card => reviewsObserver.observe(card));
 }
 
-
 // Анимация появления портфолио со рандомным порядком
 const portfolioCards = document.querySelectorAll('.portfolio-card');
 
@@ -122,8 +116,6 @@ if (portfolioCards.length) {
 
   portfolioCards.forEach(card => portfolioObserver.observe(card));
 }
-
-
 
   // Анимация появления главного блока при загрузке
   function restartAnimation(elem, className) {
@@ -151,8 +143,6 @@ if (portfolioCards.length) {
     }
   }
   
-
-
 // Анимация появления калькулятора и тарифов
 const calcCalculator = document.querySelector('.calc-calculator-wrapper');
 const calcPricing   = document.querySelector('.calc-pricing-wrapper');
@@ -172,16 +162,10 @@ if (calcContainer && calcCalculator && calcPricing) {
   calcObserver.observe(calcContainer);
 }
 
-
-
-
-
-
-
-
 // ============================================
   // АУДИОДЕМО — инициализация всех плееров
   // ============================================
+
   document.querySelectorAll('.audio-demo').forEach((demo) => {
     const audio = demo.querySelector('.audio-demo__audio');
     const btn   = demo.querySelector('.audio-demo__btn');
@@ -245,8 +229,6 @@ if (calcContainer && calcCalculator && calcPricing) {
     });
   });
 
-
-
   const aboutPhoto = document.querySelector('.about-photo');
   const aboutText  = document.querySelector('.about-text');
 
@@ -263,10 +245,6 @@ if (calcContainer && calcCalculator && calcPricing) {
   // следим за .about-wrapper — когда она входит в зону видимости
   const aboutWrapper = document.querySelector('.about-wrapper');
   if (aboutWrapper) aboutObserver.observe(aboutWrapper);
-
-
-
-
 
   const contactsWrapper = document.querySelector('.contacts-wrapper');
 
@@ -289,11 +267,6 @@ if (calcContainer && calcCalculator && calcPricing) {
 
   if (contactsWrapper) contactsObserver.observe(contactsWrapper);
 
-
-
-
-
-
   window.addEventListener('load', () => {
     setTimeout(() => {
       requestAnimationFrame(() => {
@@ -306,23 +279,12 @@ if (calcContainer && calcCalculator && calcPricing) {
     }, 0); // ← небольшая задержка, чтобы Firefox восстановил скролл
   });
 
-
-
-
-
-
-
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       item.classList.toggle('active');
     });
   });
-
-
-
-
-
 
   const faqItems = document.querySelectorAll('.faq-item');
   let faqShown = false;
@@ -460,9 +422,6 @@ function handleModalEscape(e) {
       }, 2500);
     }
 
-
-
-
 // ============================================
 // ТОЧКИ-ИНДИКАТОРЫ для мобильных каруселей
 // ============================================
@@ -545,14 +504,6 @@ function initCarouselDots() {
 }
 
 window.addEventListener('load', initCarouselDots);
-
-
-
-
-
-
-
-
 
     // ============================================
     // ПЛАВНЫЙ СКРОЛЛ
