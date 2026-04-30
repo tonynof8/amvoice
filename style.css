@@ -123,7 +123,7 @@ h2 { font-family: 'Benzin', sans-serif; }
 /* Анимация появления */
 .hero-content,
 .hero-media {
-  opacity: 0;
+  opacity: 0.02;
   transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
@@ -793,7 +793,6 @@ h2 { font-family: 'Benzin', sans-serif; }
   text-align: left;
 }
 
-/* Анимация появления (was: дублировался translateY который перекрывался translateX) */
 .about-photo,
 .about-text {
   opacity: 0;
