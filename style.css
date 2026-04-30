@@ -179,6 +179,7 @@ h2 { font-family: 'Benzin', sans-serif; }
 
 .hero-posttitle {
   display: inline-flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
   font-family: 'Montserrat', sans-serif;
@@ -198,7 +199,7 @@ h2 { font-family: 'Benzin', sans-serif; }
 }
 
 .hero-posttitle__role {
-  font-weight: 500;
+  font-weight: 600;
   color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.08em;
 }
