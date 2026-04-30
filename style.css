@@ -1134,10 +1134,11 @@ h2 { font-family: 'Benzin', sans-serif; }
    CONTACTS
    ============================================ */
 
+.contacts { padding: 80px 20px; }
+
 .contacts-wrapper {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
   text-align: center;
   opacity: 0;
   transform: translateY(40px);
@@ -1275,13 +1276,16 @@ h2 { font-family: 'Benzin', sans-serif; }
 
 /* Иконки в кнопках */
 .btn-icon {
-  font-size: 1.5rem;
+  font-size: 1.5rem;     
   width: 28px;
   height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  /* Для <img> добавляем: */
+  object-fit: contain;
+  color: #FAFAFA;
 }
 
 .btn-vk        { border-color: #0077FF; background: rgba(0, 119, 255, 0.08); }
@@ -1676,13 +1680,12 @@ h2 { font-family: 'Benzin', sans-serif; }
   .about-text { text-align: center; }
 
   .contacts-content .btn {
-    max-width: 100%;
+    max-width: 90%;
     padding: 14px 18px;
     font-size: 0.95rem;
   }
 
   .btn-icon {
-    font-size: 1.3rem;
     width: 24px;
     height: 24px;
   }
@@ -2594,13 +2597,13 @@ h2 { font-family: 'Benzin', sans-serif; }
 }
 
 .calc-contact-icon {
-  font-size: 2rem;
   flex-shrink: 0;
   width: 36px;
   height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
+  object-fit: contain;
 }
 
 /* Mobile */
@@ -2944,9 +2947,8 @@ h2 { font-family: 'Benzin', sans-serif; }
   }
   
   .calc-contact-icon {
-    font-size: 1.8rem;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
   }
   
   .calc-contact-name {
@@ -2963,4 +2965,45 @@ h2 { font-family: 'Benzin', sans-serif; }
     font-size: 0.9rem;
     padding: 14px 22px;
   }
+}
+
+
+/* ============================================
+   КНОПКА PLAY ДЛЯ ВИДЕО (модификатор audio-demo__btn)
+   ============================================ */
+.portfolio-video__btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;        /* увеличенная для видео */
+  height: 64px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Перебиваем размер треугольника для большой кнопки */
+.portfolio-video__btn::before {
+  border-width: 11px 0 11px 18px;
+}
+
+/* Hover-сдвиг через transform у audio-demo__btn = scale(1.05),
+   но мы используем transform для центрирования — нужно учесть оба */
+.portfolio-video__btn:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.portfolio-video__btn:active {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+/* Затемнение превью при hover */
+.portfolio-video img {
+  transition: filter 0.3s ease;
+}
+
+.portfolio-video:hover img {
+  filter: brightness(0.7);
 }
