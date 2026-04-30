@@ -4,6 +4,41 @@ let isProcessing = false;
 let isTextMode = false;
 let textDebounceTimer = null;
 
+// ============================================
+// LAZY-LOAD MAMMOTH.JS (для парсинга .docx)
+// Загружается только при первом перетаскивании .docx файла
+// ============================================
+let mammothLoadPromise = null;
+
+function loadMammoth() {
+  // Если уже загружен — возвращаем существующий
+  if (window.mammoth) return Promise.resolve(window.mammoth);
+  
+  // Если уже идёт загрузка — возвращаем тот же промис
+  if (mammothLoadPromise) return mammothLoadPromise;
+  
+  // Начинаем новую загрузку
+  mammothLoadPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'static/js/mammoth.browser.min.js';
+    script.async = true;
+    script.onload = () => {
+      if (window.mammoth) {
+        resolve(window.mammoth);
+      } else {
+        reject(new Error('Mammoth загрузился, но не доступен в window.mammoth'));
+      }
+    };
+    script.onerror = () => {
+      mammothLoadPromise = null; // Сбрасываем, чтобы можно было попробовать снова
+      reject(new Error('Не удалось загрузить mammoth.browser.min.js'));
+    };
+    document.head.appendChild(script);
+  });
+  
+  return mammothLoadPromise;
+}
+
 const manualInput = document.getElementById('calc-manualInput');
 const serviceSelect = document.getElementById('calc-serviceSelect');
 const fileLabel = document.getElementById('calc-fileLabel');
@@ -305,14 +340,16 @@ function handleFile(e) {
     reader.readAsText(file);
   } else if (file.name.endsWith('.docx')) {
     const reader = new FileReader();
-    reader.onload = function (event) {
-      mammoth.extractRawText({ arrayBuffer: event.target.result })
-        .then(result => {
-          done(result.value || '');
-        })
-        .catch(err => {
-          fail("Не удалось извлечь текст из .docx файла.");
-        });
+    reader.onload = async function (event) {
+      try {
+        // Подгружаем mammoth по требованию
+        const mammoth = await loadMammoth();
+        const result = await mammoth.extractRawText({ arrayBuffer: event.target.result });
+        done(result.value || '');
+      } catch (err) {
+        console.error('Ошибка обработки .docx:', err);
+        fail("Не удалось извлечь текст из .docx файла. Попробуйте ещё раз или конвертируйте в .txt");
+      }
     };
     reader.onerror = () => fail("Не удалось прочитать .docx файл.");
     reader.readAsArrayBuffer(file);
