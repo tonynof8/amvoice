@@ -621,46 +621,49 @@ window.showContactOptions = function() {
     urgent: urgent
   };
   
-  const contactHTML = `
-    <div class="calc-contact-view">
-      <div class="calc-contact-header">
-        <div class="calc-contact-title">📞 Выберите удобный способ связи</div>
-      </div>
-      
-      <div class="calc-contact-buttons">
-        <a href="https://t.me/am_voice" target="_blank" class="calc-contact-btn calc-contact-telegram">
-          <i class="calc-contact-icon fab fa-telegram"></i>
-          <div class="calc-contact-info">
-            <div class="calc-contact-name">Telegram</div>
-          </div>
-        </a>
-        
-        <a href="https://wa.me/79493255256" target="_blank" class="calc-contact-btn calc-contact-whatsapp">
-          <i class="calc-contact-icon fab fa-whatsapp"></i>
-          <div class="calc-contact-info">
-            <div class="calc-contact-name">WhatsApp</div>
-          </div>
-        </a>
-        
-        <a href="https://vk.com/am_voice" target="_blank" class="calc-contact-btn calc-contact-vk">
-          <i class="calc-contact-icon fab fa-vk"></i>
-          <div class="calc-contact-info">
-            <div class="calc-contact-name">ВКонтакте</div>
-          </div>
-        </a>
-        
-        <a href="#" class="calc-contact-btn calc-contact-email" onclick="copyEmail(); return false;">
-          <i class="calc-contact-icon fas fa-envelope"></i>
-          <div class="calc-contact-info">
-            <div class="calc-contact-name">Email</div>
-          </div>
-        </a>
-      <div class="calc-back-button-wrap">
-        <button type="button" class="btn calculate" onclick="showCalculationResult()">
-          ← Назад
-        </button>
+const contactHTML = `
+  <div class="calc-contact-view">
+    <div class="calc-contact-header">
+      <div class="calc-contact-title">📞 Выберите удобный способ связи</div>
     </div>
-  `;
+    
+    <div class="calc-contact-buttons">
+      <a href="https://t.me/am_voice" target="_blank" class="calc-contact-btn calc-contact-telegram">
+        <img src="static/img/tg.svg" alt="" class="calc-contact-icon" loading="lazy" decoding="async">
+        <div class="calc-contact-info">
+          <div class="calc-contact-name">Telegram</div>
+        </div>
+      </a>
+      
+      <a href="https://wa.me/79493255256" target="_blank" class="calc-contact-btn calc-contact-whatsapp">
+        <img src="static/img/whatsapp.svg" alt="" class="calc-contact-icon" loading="lazy" decoding="async">
+        <div class="calc-contact-info">
+          <div class="calc-contact-name">WhatsApp</div>
+        </div>
+      </a>
+      
+      <a href="https://vk.com/am_voice" target="_blank" class="calc-contact-btn calc-contact-vk">
+        <img src="static/img/vk.svg" alt="" class="calc-contact-icon" loading="lazy" decoding="async">
+        <div class="calc-contact-info">
+          <div class="calc-contact-name">ВКонтакте</div>
+        </div>
+      </a>
+      
+      <a href="#" class="calc-contact-btn calc-contact-email" onclick="copyEmail(); return false;">
+        <img src="static/img/email.svg" alt="" class="calc-contact-icon" loading="lazy" decoding="async">
+        <div class="calc-contact-info">
+          <div class="calc-contact-name">Email</div>
+        </div>
+      </a>
+    </div>
+    
+    <div class="calc-back-button-wrap">
+      <button type="button" class="btn calculate" onclick="showCalculationResult()">
+        ← Назад
+      </button>
+    </div>
+  </div>
+`;
   
   resultContent.innerHTML = contactHTML;
 }

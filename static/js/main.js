@@ -246,26 +246,24 @@ if (calcContainer && calcCalculator && calcPricing) {
   const aboutWrapper = document.querySelector('.about-wrapper');
   if (aboutWrapper) aboutObserver.observe(aboutWrapper);
 
-  const contactsWrapper = document.querySelector('.contacts-wrapper');
+const contactsWrapper = document.querySelector('.contacts-wrapper');
+const contactButtons = document.querySelectorAll('.contacts-content .btn');
 
-  const contactsObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        contactsWrapper.classList.add('visible');
+const contactsObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      contactsWrapper.classList.add('visible');
+      contactButtons.forEach((btn, i) => {
+        setTimeout(() => {
+          btn.classList.add('visible');
+        }, i * 150);
+      });
+      contactsObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
 
-        // Задержка между кнопками
-        contactButtons.forEach((btn, i) => {
-          setTimeout(() => {
-            btn.classList.add('visible');
-          }, i * 150); // 150 мс между кнопками
-        });
-
-        contactsObserver.disconnect();
-      }
-    });
-  }, { threshold: 0.3 });
-
-  if (contactsWrapper) contactsObserver.observe(contactsWrapper);
+if (contactsWrapper) contactsObserver.observe(contactsWrapper);
 
   window.addEventListener('load', () => {
     setTimeout(() => {
@@ -540,5 +538,54 @@ window.addEventListener('load', initCarouselDots);
   const calcMonths = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
   const calcDateString = `${calcCurrentDate.getDate()} ${calcMonths[calcCurrentDate.getMonth()]} ${calcCurrentDate.getFullYear()} года`;
   document.getElementById('calc-currentDate').textContent = calcDateString;
+
+// ============================================
+// CLICK-TO-LOAD ВИДЕО ПОРТФОЛИО
+// ============================================
+document.querySelectorAll('.portfolio-video').forEach(placeholder => {
+  placeholder.addEventListener('click', () => {
+    const videoSrc = placeholder.dataset.videoSrc;
+    const videoPoster = placeholder.querySelector('img')?.src || '';
+    if (!videoSrc) return;
+
+    // Останавливаем все остальные видео в портфолио
+    document.querySelectorAll('.portfolio-card video').forEach(otherVideo => {
+      if (!otherVideo.paused) {
+        otherVideo.pause();
+      }
+    });
+
+    // Также останавливаем аудиоплееры в hero
+    document.querySelectorAll('.audio-demo__audio').forEach(audio => {
+      if (!audio.paused) {
+      audio.pause();
+      audio.closest('.audio-demo')?.classList.remove('is-playing');
+      }
+    });
+
+    // Создаём video-элемент
+    const video = document.createElement('video');
+    video.src = videoSrc;
+    video.controls = true;
+    video.autoplay = true;
+    video.poster = videoPoster || '';
+    video.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;';
+
+    // Когда новое видео начинает играть — ещё раз останавливаем все остальные
+    // (на случай если несколько видео уже создано и пользователь нажал play по второму)
+    video.addEventListener('play', () => {
+      document.querySelectorAll('.portfolio-card video').forEach(otherVideo => {
+        if (otherVideo !== video && !otherVideo.paused) {
+          otherVideo.pause();
+        }
+      });
+    });
+
+    // Заменяем placeholder содержимое на видео
+    placeholder.innerHTML = '';
+    placeholder.style.cursor = 'default';
+    placeholder.appendChild(video);
+  });
+});
 
 })();
