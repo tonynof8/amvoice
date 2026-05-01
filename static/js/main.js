@@ -544,6 +544,9 @@ window.addEventListener('load', initCarouselDots);
 // ============================================
 document.querySelectorAll('.portfolio-video').forEach(placeholder => {
   placeholder.addEventListener('click', () => {
+    // Если видео уже создано — ничего не делаем (не пересоздаём!)
+    if (placeholder.dataset.loaded === 'true') return;
+
     const videoSrc = placeholder.dataset.videoSrc;
     const videoPoster = placeholder.querySelector('img')?.src || '';
     if (!videoSrc) return;
@@ -558,8 +561,8 @@ document.querySelectorAll('.portfolio-video').forEach(placeholder => {
     // Также останавливаем аудиоплееры в hero
     document.querySelectorAll('.audio-demo__audio').forEach(audio => {
       if (!audio.paused) {
-      audio.pause();
-      audio.closest('.audio-demo')?.classList.remove('is-playing');
+        audio.pause();
+        audio.closest('.audio-demo')?.classList.remove('is-playing');
       }
     });
 
@@ -568,11 +571,13 @@ document.querySelectorAll('.portfolio-video').forEach(placeholder => {
     video.src = videoSrc;
     video.controls = true;
     video.autoplay = true;
-    video.poster = videoPoster || '';
+    video.playsInline = true;                // ← inline-воспроизведение (не полный экран)
+    video.setAttribute('playsinline', '');   // ← дублируем атрибутом для подстраховки
+    video.setAttribute('webkit-playsinline', ''); // ← для старых iOS Safari
+    video.poster = videoPoster;
     video.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;';
 
-    // Когда новое видео начинает играть — ещё раз останавливаем все остальные
-    // (на случай если несколько видео уже создано и пользователь нажал play по второму)
+    // Когда видео начинает играть — останавливаем все остальные
     video.addEventListener('play', () => {
       document.querySelectorAll('.portfolio-card video').forEach(otherVideo => {
         if (otherVideo !== video && !otherVideo.paused) {
@@ -584,6 +589,7 @@ document.querySelectorAll('.portfolio-video').forEach(placeholder => {
     // Заменяем placeholder содержимое на видео
     placeholder.innerHTML = '';
     placeholder.style.cursor = 'default';
+    placeholder.dataset.loaded = 'true';      // ← помечаем как «уже загружен»
     placeholder.appendChild(video);
   });
 });
