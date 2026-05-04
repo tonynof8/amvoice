@@ -874,6 +874,12 @@ h2 { font-family: 'Benzin', sans-serif; }
   filter: blur(0);
 }
 
+@media (max-width: 768px) {
+  .portfolio-card {
+    opacity: 0.5;
+  }
+}
+
 .portfolio-card iframe {
   width: 100%;
   height: 100%;
