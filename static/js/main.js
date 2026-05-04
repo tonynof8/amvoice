@@ -442,18 +442,11 @@ function initCarouselDots() {
     carousel.insertAdjacentElement('afterend', dotsContainer);
 
     cards.forEach((_, index) => {
-      const dot = document.createElement('button');
+      const dot = document.createElement('span');
       dot.className = 'carousel-dot';
-      dot.type = 'button';
-      dot.setAttribute('aria-label', `Перейти к слайду ${index + 1}`);
+      dot.setAttribute('aria-hidden', 'true');
 
-      dot.addEventListener('click', () => {
-        const card = cards[index];
-        const targetScroll = card.offsetLeft - (carousel.offsetWidth - card.offsetWidth) / 2;
-        carousel.scrollTo({ left: targetScroll, behavior: 'smooth' });
-      });
-
-      dotsContainer.appendChild(dot);
+    dotsContainer.appendChild(dot);
     });
 
     const dots = dotsContainer.querySelectorAll('.carousel-dot');
