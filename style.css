@@ -876,7 +876,8 @@ h2 { font-family: 'Benzin', sans-serif; }
 
 @media (max-width: 768px) {
   .portfolio-card {
-    opacity: 0.5;
+    opacity: 0.7;
+    transform: translateY(0px) scale(0.95);
   }
 }
 
@@ -1007,6 +1008,13 @@ h2 { font-family: 'Benzin', sans-serif; }
   opacity: 1;
   transform: translateY(0) scale(1);
   filter: blur(0);
+}
+
+@media (max-width: 768px) {
+  .review-card {
+    opacity: 0.7;
+    transform: translateY(0px) scale(0.95);
+  }
 }
 
 .review-card:hover {
@@ -1800,7 +1808,6 @@ h2 { font-family: 'Benzin', sans-serif; }
     transition: opacity 0.18s ease;
   }
 
-  .carousel-dot:hover { background: rgba(255, 255, 255, 0.4); }
 }
 
 /* — 600px: компактный HERO + аудиоплееры */
