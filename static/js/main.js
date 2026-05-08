@@ -132,10 +132,7 @@ if (portfolioCards.length) {
     const text   = document.querySelector('.hero-content');
     const image  = document.querySelector('.hero-media');
     const navbar = document.querySelector('.navbar');
-  
-    if (text)  restartAnimation(text, 'animate');
-    if (image) restartAnimation(image, 'animate');
-  
+    
     if (navbar) {
       setTimeout(() => {
         restartAnimation(navbar, 'animate');
