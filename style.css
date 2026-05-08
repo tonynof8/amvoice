@@ -1660,6 +1660,12 @@ h2 { font-family: 'Benzin', sans-serif; }
     margin-right: auto;
   }
 
+  .hero-description strong {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .hero-posttitle {
     margin-left: auto;
     margin-right: auto;
