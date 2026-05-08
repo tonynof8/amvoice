@@ -117,28 +117,11 @@ if (portfolioCards.length) {
   portfolioCards.forEach(card => portfolioObserver.observe(card));
 }
 
-  // Анимация появления главного блока при загрузке
-  function restartAnimation(elem, className) {
-    elem.classList.remove(className);
-    void elem.offsetWidth;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        elem.classList.add(className);
-      });
-    });
-  }
-  
-  function runHeroAnimation() {
-    const text   = document.querySelector('.hero-content');
-    const image  = document.querySelector('.hero-media');
-    const navbar = document.querySelector('.navbar');
-    
-    if (navbar) {
-      setTimeout(() => {
-        restartAnimation(navbar, 'animate');
-      }, 0); // ⏱ задержка 300 мс
-    }
-  }
+// Анимация navbar при загрузке
+function runHeroAnimation() {
+  const navbar = document.querySelector('.navbar');
+  if (navbar) navbar.classList.add('animate');
+}
   
 // Анимация появления калькулятора и тарифов
 const calcCalculator = document.querySelector('.calc-calculator-wrapper');
