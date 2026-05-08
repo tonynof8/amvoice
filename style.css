@@ -121,24 +121,22 @@ h2 { font-family: 'Benzin', sans-serif; }
 }
 
 /* Анимация появления */
-.hero-content,
+@keyframes heroSlideIn {
+  from { opacity: 0; transform: translateX(-60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes heroSlideInRight {
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.hero-content {
+  animation: heroSlideIn 0.8s ease both;
+}
+
 .hero-media {
-  opacity: 0.02;
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.hero-content { transform: translateX(-60px); }
-.hero-media   { transform: translateX(60px); }
-
-.hero-content.animate {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.hero-media.animate {
-  opacity: 1;
-  transform: translateX(0);
-  transition-delay: 0.3s;
+  animation: heroSlideInRight 0.8s ease 0.3s both;
 }
 
 /* Общий шаблон ряда — для плееров и кнопок */
@@ -1790,7 +1788,7 @@ h2 { font-family: 'Benzin', sans-serif; }
   .carousel-dot {
     --progress: 0;
     position: relative;
-    width: 24px;
+    width: calc(8px + 16px * var(--progress));
     height: 8px;
     padding: 0;
     border: none;
@@ -1802,8 +1800,6 @@ h2 { font-family: 'Benzin', sans-serif; }
     -webkit-tap-highlight-color: transparent;
     transition: width 0.18s cubic-bezier(0.22, 1, 0.36, 1),
                 background 0.18s ease;
-    transform-origin: left center;
-    transform: scaleX(calc(0.333 + 0.667 * var(--progress)));
   }
 
   .carousel-dot::before {
