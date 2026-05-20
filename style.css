@@ -74,11 +74,10 @@ h2 { font-family: 'Benzin', sans-serif; }
    ============================================ */
 .hero-section {
   min-height: 100vh;
-  height: 100vh;
   display: flex;
   align-items: stretch;
   justify-content: center;
-  padding: 80px clamp(20px, 5vw, 140px) 0;
+  padding: 100px clamp(20px, 5vw, 140px) 0;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
@@ -96,7 +95,7 @@ h2 { font-family: 'Benzin', sans-serif; }
 
 /* Левая колонка — контент */
 .hero-content {
-  flex: 1;                  /* ← было flex: 1 1 1 (flex-basis: 1px) */
+  flex: 2;
   min-width: 0;
   max-width: 720px;
   display: flex;
@@ -129,30 +128,35 @@ h2 { font-family: 'Benzin', sans-serif; }
   width: 100%;
 }
 
+.hero-h1 {
+  font-family: 'Benzin', sans-serif;
+  font-size: clamp(16px, 1.7vw, 25px);
+  color: #fff;
+}
+
 .hero-title {
   font-family: 'Benzin', sans-serif;
   font-weight: 800;
   line-height: 1;
+  margin: 0 0 1rem;   /* ← добавить */
 }
 
 .hero-title__line1 {
   display: block;
   font-size: clamp(56px, 11vw, 60px);
   color: #fff;
-  margin-bottom: clamp(-15px, -3.5vw, -20px);
+  margin-bottom: clamp(-8px, -3.5vw, -20px);
   width: fit-content;
   position: relative;
 }
 
 .hero-title__line2 {
   display: block;
-  font-size: clamp(40px, 8vw, 96px);
+  font-size: clamp(40px, 6.6vw, 96px);
   background: var(--gradient1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding-top: 0.1em;
-  width: fit-content;
   position: relative;
   font-family: 'Benzin', sans-serif;
 }
@@ -239,6 +243,7 @@ h2 { font-family: 'Benzin', sans-serif; }
   flex-wrap: wrap;
   gap: 16px;
   margin-top: 30px;
+  justify-content: center;
 }
 
 .btn.large {
