@@ -151,8 +151,7 @@ h2 { font-family: 'Benzin', sans-serif; }
 }
 
 .hero-title__line2 {
-  display: block;
-  font-size: clamp(40px, 6.6vw, 94px);
+  font-size: clamp(40px, 6.4vw, 94px);
   background: var(--gradient1);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
