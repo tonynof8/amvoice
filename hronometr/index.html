@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+    /* ── 1. Инициализация темы до первого рендера ─────────────────────────
+       Приоритеты: ?theme= в URL → localStorage → prefers-color-scheme     */
+    (function () {
+      try {
+        var fromUrl  = new URLSearchParams(location.search).get('theme');
+        var saved    = localStorage.getItem('hronometr-theme');
+        var explicit = fromUrl || saved;
+        var theme    = explicit
+          || (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light' : 'dark');
+        if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+      } catch (e) {}
+    })();
+
+    /* ── 2. Переключатель темы с ripple-анимацией ─────────────────────────
+       Определён здесь (sync-скрипт), поэтому onclick работает сразу,
+       независимо от загрузки основного defer-скрипта.                      */
+    window.toggleTheme = function () {
+      var html     = document.documentElement;
+      var isLight  = html.getAttribute('data-theme') === 'light';
+      var newTheme = isLight ? 'dark' : 'light';
+
+      /* Координаты центра кнопки — от неё расходятся волны */
+      var btn  = document.getElementById('themeToggle');
+      var rect = btn
+        ? btn.getBoundingClientRect()
+        : { left: window.innerWidth / 2, top: 0, width: 0, height: 0 };
+      var x = Math.round(rect.left + rect.width  / 2);
+      var y = Math.round(rect.top  + rect.height / 2);
+
+      /* Радиус, достаточный чтобы круг накрыл весь экран */
+      var r = Math.ceil(Math.hypot(
+        Math.max(x, window.innerWidth  - x),
+        Math.max(y, window.innerHeight - y)
+      ));
+
+      /* Применить новую тему и сохранить выбор */
+      function applyTheme() {
+        if (newTheme === 'light') html.setAttribute('data-theme', 'light');
+        else                      html.removeAttribute('data-theme');
+        try { localStorage.setItem('hronometr-theme', newTheme); } catch (e) {}
+      }
+
+      /* Уважаем prefers-reduced-motion — просто переключаем без анимации */
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        applyTheme();
+        return;
+      }
+
+      /* ── Вариант A: View Transitions API (Chrome 111+, Safari 18+) ── */
+      if (document.startViewTransition) {
+        var vt = document.startViewTransition(applyTheme);
+        vt.ready.then(function () {
+          html.animate(
+            {
+              clipPath: [
+                'circle(0px at ' + x + 'px ' + y + 'px)',
+                'circle(' + r  + 'px at ' + x + 'px ' + y + 'px)'
+              ]
+            },
+            {
+              duration:        700,
+              easing:          'cubic-bezier(0.4, 0, 0.2, 1)',
+              pseudoElement:   '::view-transition-new(root)'
+            }
+          );
+        });
+        return;
+      }
+
+      /* ── Вариант Б: clip-path disc (все браузеры) ───────────────────── */
+      var disc = document.createElement('div');
+      disc.style.cssText = [
+        'position:fixed', 'inset:0', 'z-index:99998', 'pointer-events:none',
+        'background:' + (newTheme === 'light' ? '#f4f4f7' : '#0a0a0a'),
+        'clip-path:circle(0px at ' + x + 'px ' + y + 'px)',
+        'will-change:clip-path'
+      ].join(';');
+      document.body.appendChild(disc);
+
+      /* Двойной rAF — гарантирует repaint перед стартом анимации */
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          disc.style.transition = 'clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+          disc.style.clipPath   = 'circle(' + r + 'px at ' + x + 'px ' + y + 'px)';
+        });
+      });
+
+      /* После раскрытия — применяем тему; диск становится невидимым
+         (его фон совпадает с новым фоном страницы) и удаляем его     */
+      var applied = false;
+      function finish() {
+        if (applied) return;
+        applied = true;
+        applyTheme();
+        disc.remove();
+      }
+      disc.addEventListener('transitionend', finish, { once: true });
+      setTimeout(finish, 900); /* страховка, если transitionend не сработал */
+    };
+  </script>
+
+  <title>Хронометр текста онлайн — стоимость озвучки диктором, расчёт хронометража бесплатно</title>
+  <meta name="description" content="Хронометр текста онлайн бесплатно. Рассчитайте хронометраж и стоимость озвучки диктором. Точный подсчёт слов и знаков с учётом чисел и знаков препинания. Узнайте цену озвучки текста за минуту.">
+  <link rel="canonical" href="https://amvoice.ru/hronometr">
+  <link rel="icon" type="image/x-icon" href="favicon/favicon.ico">
+
+  <!-- Preload шрифтов -->
+  <link rel="preload" href="static/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/Montserrat-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/Montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="static/fonts/Benzin-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Preload для ускорения обнаружения -->
+  <link rel="preload" href="hronometr.min.css" as="style">
+  <!-- CSS стили -->
+  <link rel="stylesheet" href="hronometr.min.css">
+
+</head>
+
+<body>
+
+  <header class="navbar">
+    <div class="navbar-container">
+      <a href="#home" class="logo">
+        <span class="logo-text">Хронометр текста</span>
+        <span class="logo-subtitle">Хронометраж текста онлайн</span>
+      </a>
+
+      <nav class="nav-links">
+        <div class="nav-lens"></div>
+        <a href="#home" data-section="home">Хронометр</a>
+        <a href="#about" data-section="about">О сервисе</a>
+        <a href="#faq" data-section="faq">FAQ</a>
+      </nav>
+
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="themeToggle" type="button"
+                onclick="toggleTheme()" aria-label="Переключить тему"
+                title="Светлая / тёмная тема">
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
+          </svg>
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"/>
+            <path d="M12 2.6v2.5M12 18.9v2.5M4.7 4.7l1.8 1.8M17.5 17.5l1.8 1.8M2.6 12h2.5M18.9 12h2.5M4.7 19.3l1.8-1.8M17.5 6.5l1.8-1.8"/>
+          </svg>
+        </button>
+
+        <div class="burger" onclick="toggleMenu(this)">
+          <svg viewBox="0 0 100 100" width="32" height="32">
+            <line class="bar bar1" x1="20" y1="50" x2="80" y2="50" />
+            <line class="bar bar2" x1="20" y1="50" x2="80" y2="50" />
+            <line class="bar bar3" x1="20" y1="50" x2="80" y2="50" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#home">Хронометр</a>
+    <a href="#about">О сервисе</a>
+    <a href="#faq">FAQ</a>
+  </div>
+
+  <main class="hronomer-page" id="home">
+    <div class="animated-bg">
+      <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+        <g class="wave wave1"><path d="M0,350 C300,200 900,400 1200,150" /></g>
+        <g class="wave wave2"><path d="M0,450 C300,350 900,450 1200,250" /></g>
+        <g class="wave wave3"><path d="M0,550 C300,400 900,500 1200,350" /></g>
+        <g class="wave wave4"><path d="M0,650 C300,450 900,550 1200,450" /></g>
+        <g class="wave wave5"><path d="M0,750 C300,500 900,600 1200,550" /></g>
+      </svg>
+    </div>
+
+    <div class="hronomer-wrapper">
+
+      <header class="hronomer-header">
+        <h1>Хронометр текста онлайн</h1>
+        <p>Точный расчёт хронометража и <strong>стоимости озвучки диктором</strong> — бесплатно, без регистрации</p>
+      </header>
+
+      <div class="hronomer-textarea-wrap">
+        <textarea
+          id="hronomer-input"
+          class="hronomer-textarea"
+          placeholder="Вставьте сюда текст (Ctrl+V) или введите вручную — подсчёт идёт автоматически"
+          autofocus
+        ></textarea>
+        <button type="button" class="hronomer-clear-btn" id="hronomer-clear" aria-label="Очистить">Очистить</button>
+        <button type="button" class="hronomer-sample-btn" id="hronomer-sample" aria-label="Вставить из буфера">Вставить</button>
+      </div>
+
+      <div class="hronomer-timing-row">
+        <div class="hronomer-timing-main">
+          <div class="hronomer-timing-main-label">Хронометраж текста · 120 сл/мин</div>
+          <div class="hronomer-timing-main-value" id="hronomer-timing-slow">00:00</div>
+        </div>
+
+        <div class="hronomer-timing-secondary">
+          <div class="hronomer-tempo-secondary">
+            <div class="hronomer-tempo-secondary-value" id="hronomer-timing-medium">00:00</div>
+            <div class="hronomer-tempo-secondary-label">Повествование<br>150 сл/мин</div>
+          </div>
+          <div class="hronomer-tempo-secondary">
+            <div class="hronomer-tempo-secondary-value" id="hronomer-timing-fast">00:00</div>
+            <div class="hronomer-tempo-secondary-label">Динамично<br>180 сл/мин</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hronomer-stats">
+        <div class="hronomer-stat">
+          <div class="hronomer-stat-value" id="hronomer-words">0</div>
+          <div class="hronomer-stat-label">Слов</div>
+        </div>
+        <div class="hronomer-stat">
+          <div class="hronomer-stat-value" id="hronomer-chars">0</div>
+          <div class="hronomer-stat-label">Знаков с пробелами</div>
+        </div>
+        <div class="hronomer-stat">
+          <div class="hronomer-stat-value" id="hronomer-chars-nospace">0</div>
+          <div class="hronomer-stat-label">Знаков без пробелов</div>
+        </div>
+      </div>
+
+      <div class="hronomer-calc" id="hronomer-calc">
+        <div class="hronomer-calc-title">Рассчитать стоимость дикторской озвучки текста</div>
+        <div class="hronomer-calc-row">
+          <div class="hronomer-calc-cell hronomer-calc-cell--left">
+            <input type="number" class="hronomer-calc-input" id="hronomer-calc-minutes" placeholder="—" readonly tabindex="-1">
+            <div class="hronomer-calc-sublabel">Хронометраж<br>текста, мин</div>
+          </div>
+          <div class="hronomer-calc-op">×</div>
+          <div class="hronomer-calc-cell">
+            <input type="number" class="hronomer-calc-input" id="hronomer-rate" min="0" placeholder="0">
+            <div class="hronomer-calc-sublabel">Ставка<br>диктора, ₽/мин</div>
+          </div>
+          <div class="hronomer-calc-op">=</div>
+          <div class="hronomer-calc-cell hronomer-calc-cell--right">
+            <div class="hronomer-calc-input--result" id="hronomer-calc-total">0 ₽</div>
+          </div>
+        </div>
+        <div class="hronomer-calc-footer" id="hronomer-calc-footer">
+          <hr class="hronomer-calc-divider">
+          <button type="button" class="hronomer-find-btn" id="hronomer-find-btn">
+            <span class="hronomer-find-dot"></span>
+            Заказать озвучку у диктора
+          </button>
+        </div>
+      </div>
+
+      <div class="hronomer-order" id="hronomer-order">
+        <div style="display: flex; align-items: center; gap: 16px; min-width: 0; flex: 1;">
+          <div class="avatar-wrapper hronomer-order-avatar">
+            <img src="/static/img/avatar.webp" alt="Антон Малютин" loading="lazy">
+            <span class="online-indicator"></span>
+          </div>
+          <div class="audio-demo hronomer-order-demo" data-lang="ru">
+            <button class="audio-demo__btn" type="button" aria-label="Воспроизвести демо"></button>
+            <audio class="audio-demo__audio" src="/media/demo_ru.mp3" preload="none"></audio>
+          </div>
+          <div class="hronomer-order-info">
+            <div class="hronomer-order-price"><span id="hronomer-price">—</span> ₽</div>
+            <div class="hronomer-order-author"><strong>Антон Малютин</strong> · диктор и актёр озвучивания</div>
+          </div>
+        </div>
+        <a href="https://amvoice.ru/#pricing" class="btn order hronomer-order-btn">Заказать озвучку</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- О сервисе -->
+  <section id="about" class="faq">
+    <div class="faq-wrapper">
+      <h2>О сервисе</h2>
+      <p class="section-subtext">
+        Хронометр текста онлайн — бесплатный профессиональный инструмент: определяет хронометраж текста, считает количество слов, а также количество знаков с пробелами и без пробелов.
+      </p>
+      <div class="faq-content" style="display: block;">
+        <p style="line-height: 1.8; margin-bottom: 20px;">
+          Хронометр текста — это три инструмента в одном окне. Во-первых, он рассчитывает <strong>хронометраж текста в минутах</strong> — то есть длительность будущей озвучки. Во-вторых, считает <strong>количество слов в тексте</strong>. В-третьих, показывает <strong>количество знаков (символов) с пробелами и без пробелов</strong>. Просто вставьте текст в поле — все показатели рассчитываются мгновенно, онлайн и бесплатно, без регистрации.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 20px;">
+          Сервис создан профессиональным диктором, поэтому подсчёт количества слов здесь точнее, чем в обычных счётчиках: <strong>числа, меры длины, веса, валюты и т.п. переводятся в слова</strong> («2026$» — это «две тысячи двадцать шесть долларов», а не одно слово), знаки препинания и дефисы словами не считаются, специальные символы обрабатываются корректно. На основе количества слов хронометр определяет хронометраж текста при трёх темпах чтения и помогает рассчитать стоимость озвучки.
+        </p>
+        <p style="line-height: 1.8; margin-bottom: 20px;">
+          Кому полезен сервис: <strong>дикторам и заказчикам озвучки</strong> — чтобы определить хронометраж текста и цену; <strong>переводчикам</strong> — чтобы посчитать количество знаков с пробелами и перевести его в стандартные переводческие страницы (1800 знаков); <strong>копирайтерам, редакторам, журналистам и SMM-специалистам</strong> — чтобы проверить объём текста; <strong>студентам</strong> — чтобы узнать количество слов и знаков в реферате или эссе.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <div class="faq-wrapper">
+      <h2>Часто задаваемые вопросы</h2>
+      <p class="section-subtext">
+        Отвечаю на главные вопросы о хронометраже текста, подсчёте количества слов и знаков, а также о стоимости озвучки диктором.
+      </p>
+      <div class="faq-content">
+
+        <div class="faq-item">
+          <button class="faq-question">Что умеет хронометр текста?</button>
+          <div class="faq-answer">
+            <p>Хронометр текста онлайн совмещает три инструмента. Он определяет <strong>хронометраж текста в минутах</strong> — длительность будущей озвучки; считает <strong>количество слов в тексте</strong>; показывает <strong>количество знаков с пробелами и без пробелов</strong>.</p>
+            <p>Все показатели рассчитываются автоматически, как только вы вставляете текст в поле — бесплатно, онлайн, без регистрации и смс. Это удобно не только дикторам и заказчикам озвучки, но и переводчикам, копирайтерам, редакторам и студентам, которым нужно быстро посчитать объём текста.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Как посчитать количество слов в тексте онлайн?</button>
+          <div class="faq-answer">
+            <p>Вставьте или введите текст в поле хронометра и сервис мгновенно подсчитает <strong>количество слов в тексте</strong>. Ничего нажимать не нужно: значение обновляется автоматически по мере ввода.</p>
+            <p>Этот хронометр определяет количество слов точнее обычных счётчиков, потому что считает слова так, как их произносит диктор: числа переводятся в слова, а знаки препинания и дефисы словами не считаются. Поэтому подсчитать количество слов в тексте здесь можно как для оценки длительности озвучки, так и для проверки объёма статьи, поста, сценария или реферата.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Как узнать количество знаков с пробелами и без пробелов?</button>
+          <div class="faq-answer">
+            <p>Помимо хронометража и количества слов, сервис показывает <strong>количество знаков (символов) в тексте</strong> — отдельно с пробелами и отдельно без пробелов.</p>
+            <p>Это два разных показателя. Знаки с пробелами учитывают каждый пробел между словами — именно это значение используют переводчики и копирайтеры. Знаки без пробелов считают только буквы, цифры и символы. Количество слов и знаков в тексте обновляется автоматически по мере ввода.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Чем хронометр полезен переводчикам и копирайтерам?</button>
+          <div class="faq-answer">
+            <p>Объём работы переводчика традиционно измеряется в знаках: стандартная переводческая страница — это <strong>1800 знаков с пробелами</strong>. Зная количество знаков с пробелами, переводчик за секунду рассчитает число страниц и стоимость перевода.</p>
+            <p>Копирайтерам, редакторам и журналистам подсчёт количества слов и знаков помогает уложиться в техническое задание, а студентам — проверить объём реферата, курсовой или эссе. Хронометр заменяет сразу несколько инструментов: счётчик слов, счётчик символов и калькулятор хронометража.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">В чём преимущества этого хронометра текста перед остальными?</button>
+          <div class="faq-answer">
+            <p>Главное преимущество — точность подсчёта. Хронометр не считает пробелы и дефисы за слова, не учитывает как слова знаки препинания и прочую пунктуацию, а все числа автоматически переводит в слова. Например, большинство хронометров посчитают «123%» как одно слово — этот сервис посчитает четыре: «сто двадцать три процента».</p>
+            <p>За счёт корректного подсчёта количества слов хронометраж текста получается реалистичным, без искусственного завышения или занижения.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Почему диктор прочитал меньше времени, чем показал хронометр?</button>
+          <div class="faq-answer">
+            <p>Хронометр рассчитывает длительность при <strong>медленном темпе — 120 слов в минуту</strong>. Это нижняя граница, которая используется для расчёта стоимости: диктор не прочитает текст быстрее, чем выйдет по деньгам.</p>
+            <p>Если диктор читал быстрее — значит, он работал в темпе 150–180 слов в минуту. Для ориентира хронометр показывает все три варианта хронометража: медленный, повествовательный и динамичный.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Как хронометр считает числа в тексте?</button>
+          <div class="faq-answer">
+            <p>Числа автоматически переводятся в слова. Например, <strong>«2026»</strong> — это «две тысячи двадцать шесть», то есть <strong>4 слова</strong>, а не одно. Именно столько слов диктор произнесёт вслух.</p>
+            <p>Большинство хронометров считают любое число как одно слово — из-за этого определение хронометража текста с числами занижается на 10–30%. Корректный перевод чисел в слова делает точными и хронометраж, и подсчёт количества слов.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Почему знаки препинания не влияют на хронометраж?</button>
+          <div class="faq-answer">
+            <p>Точки, запятые, тире и другие знаки диктор <strong>не произносит</strong> — он лишь делает паузы. Паузы уже заложены в темпе чтения, поэтому считать знаки препинания за отдельные слова — ошибка.</p>
+            <p>Некоторые хронометры считают точки и тире за слова, из-за чего хронометраж искусственно завышается. При этом знаки препинания учитываются в отдельном показателе — количестве знаков с пробелами и без, который нужен переводчикам и копирайтерам.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Почему хронометраж текста разный при разном темпе чтения?</button>
+          <div class="faq-answer">
+            <p>Разные форматы озвучки требуют разного темпа, поэтому хронометр текста показывает три значения:</p>
+            <p><strong>120 слов/мин</strong> — аудиокниги, неспешное повествование, закадровый голос.</p>
+            <p><strong>150 слов/мин</strong> — корпоративные видео, обучающие курсы, стандартный диктор.</p>
+            <p><strong>180 слов/мин</strong> — реклама, динамичные ролики, радио.</p>
+            <p>Все три варианта хронометража видны сразу — можно выбрать нужный под ваш формат.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Как рассчитать стоимость озвучки текста диктором?</button>
+          <div class="faq-answer">
+            <p>Вставьте текст в хронометр — он автоматически рассчитает хронометраж в минутах (всегда округляется вверх до целых). Затем введите ставку диктора в рублях за минуту в поле «Ставка диктора» — стоимость озвучки посчитается мгновенно.</p>
+            <p>Средняя цена озвучки текста диктором — <strong>от 200 до 500 ₽ за минуту</strong> в зависимости от опыта и формата. Чтобы заказать озвучку диктором онлайн, нажмите кнопку «Заказать озвучку у диктора» ниже.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question">Сколько слов в минуту читает диктор?</button>
+          <div class="faq-answer">
+            <p>В среднем профессиональный диктор читает <strong>120–180 слов в минуту</strong>. Конкретный темп зависит от жанра, стиля подачи и требований заказчика.</p>
+            <p>Для расчёта стоимости хронометр озвучки текста использует нижнюю границу — <strong>120 слов в минуту</strong>, чтобы заказчик не переплатил, а диктор не оказался в минусе.</p>
+          </div>
+        </div>
+
+      </div>
+
+      <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Что умеет хронометр текста?", "acceptedAnswer": { "@type": "Answer", "text": "Хронометр текста онлайн определяет хронометраж текста в минутах, считает количество слов в тексте и показывает количество знаков с пробелами и без пробелов. Все показатели рассчитываются автоматически и бесплатно." } },
+          { "@type": "Question", "name": "Как посчитать количество слов в тексте онлайн?", "acceptedAnswer": { "@type": "Answer", "text": "Вставьте текст в поле хронометра — количество слов подсчитается автоматически. Сервис считает слова так, как их произносит диктор: числа переводятся в слова, знаки препинания и дефисы словами не считаются." } },
+          { "@type": "Question", "name": "Как узнать количество знаков с пробелами и без пробелов?", "acceptedAnswer": { "@type": "Answer", "text": "Сервис показывает количество знаков в тексте отдельно с пробелами и без пробелов. Знаки с пробелами учитывают каждый пробел между словами, знаки без пробелов — только буквы, цифры и символы. Оба значения обновляются автоматически." } },
+          { "@type": "Question", "name": "Почему диктор прочитал меньше времени, чем показал хронометр?", "acceptedAnswer": { "@type": "Answer", "text": "Хронометр рассчитывает длительность при медленном темпе — 120 слов в минуту. Это нижняя граница для расчёта стоимости. Если диктор читал быстрее — он работал в темпе 150-180 слов в минуту." } },
+          { "@type": "Question", "name": "Как хронометр считает числа в тексте?", "acceptedAnswer": { "@type": "Answer", "text": "Числа автоматически переводятся в слова. Например, «2026» — это «две тысячи двадцать шесть», 4 слова. Большинство хронометров считают цифры как одно слово, что занижает хронометраж." } },
+          { "@type": "Question", "name": "Сколько слов в минуту читает диктор?", "acceptedAnswer": { "@type": "Answer", "text": "В среднем профессиональный диктор читает 120-180 слов в минуту. Для расчёта стоимости принято использовать нижнюю границу — 120 слов в минуту." } }
+        ]
+      }
+      </script>
+    </div>
+  </section>
+
+  <!-- Футер -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>Хронометр текста онлайн © <a href="https://amvoice.ru" target="_blank" rel="noopener" style="color: inherit;">Антон Малютин</a>, 2026</p>
+    </div>
+  </footer>
+
+  <script src="/static/js/hronometr.obf.js" defer></script>
+
+</body>
+</html>
