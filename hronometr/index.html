@@ -144,14 +144,10 @@
         <button class="theme-toggle" id="themeToggle" type="button"
                 onclick="toggleTheme()" aria-label="Переключить тему"
                 title="Светлая / тёмная тема">
-          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>
-          </svg>
-          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4.2"/>
-            <path d="M12 2.6v2.5M12 18.9v2.5M4.7 4.7l1.8 1.8M17.5 17.5l1.8 1.8M2.6 12h2.5M18.9 12h2.5M4.7 19.3l1.8-1.8M17.5 6.5l1.8-1.8"/>
-          </svg>
+          <img class="theme-icon theme-icon-moon" src="/static/ico/moon.svg"
+              alt="" aria-hidden="true" width="20" height="20">
+          <img class="theme-icon theme-icon-sun" src="/static/ico/sun.svg"
+              alt="" aria-hidden="true" width="20" height="20">
         </button>
 
         <div class="burger" onclick="toggleMenu(this)">
@@ -186,7 +182,7 @@
 
       <header class="hronomer-header">
         <h1>Хронометр текста онлайн</h1>
-        <p>Точный расчёт хронометража и <strong>стоимости озвучки диктором</strong> — бесплатно, без регистрации</p>
+        <p>Расчёт хронометража и <strong>стоимости озвучки диктором</strong> — бесплатно, без регистрации и смс</p>
       </header>
 
       <div class="hronomer-textarea-wrap">
@@ -427,7 +423,7 @@
     </div>
   </footer>
 
-  <script src="/static/js/hronometr.obf.js" defer></script>
+  <script src="/static/js/hronometr.min.js" defer></script>
 
 </body>
 </html>
