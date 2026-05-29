@@ -72,8 +72,7 @@
         'will-change:clip-path'
       ].join(';');
       document.body.appendChild(disc);
-
-      /* Двойной rAF — гарантирует repaint перед стартом анимации */
+      
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           disc.style.transition = 'clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -97,16 +96,11 @@
   <meta name="description" content="Определение хронометража текста и расчёт стоимости озвучки диктором онлайн. Числа и единицы измерения переводятся в слова автоматически.">
   <link rel="canonical" href="https://amvoice.ru/hronometr/">
   <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
-
-  <!-- Preload шрифтов -->
   <link rel="preload" href="/static/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Montserrat-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Benzin-Bold.woff2" as="font" type="font/woff2" crossorigin>
-
-<!-- Preload для ускорения обнаружения -->
   <link rel="preload" href="hronometr.min.css" as="style">
-  <!-- CSS стили -->
   <link rel="stylesheet" href="hronometr.min.css">
 
 </head>
@@ -263,7 +257,6 @@
     </div>
   </main>
 
-  <!-- О сервисе -->
   <section id="about" class="faq">
     <div class="faq-wrapper">
       <h2>О сервисе</h2>
@@ -284,7 +277,6 @@
     </div>
   </section>
 
-  <!-- FAQ -->
   <section id="faq" class="faq">
     <div class="faq-wrapper">
       <h2>Часто задаваемые вопросы</h2>
