@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script>
+    /* ── 1. Инициализация темы до первого рендера ─────────────────────────
+       Приоритеты: ?theme= в URL → localStorage → prefers-color-scheme     */
     (function () {
       try {
         var fromUrl  = new URLSearchParams(location.search).get('theme');
@@ -15,12 +17,16 @@
         if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
       } catch (e) {}
     })();
-    
+
+    /* ── 2. Переключатель темы с ripple-анимацией ─────────────────────────
+       Определён здесь (sync-скрипт), поэтому onclick работает сразу,
+       независимо от загрузки основного defer-скрипта.                      */
     window.toggleTheme = function () {
       var html     = document.documentElement;
       var isLight  = html.getAttribute('data-theme') === 'light';
       var newTheme = isLight ? 'dark' : 'light';
 
+      /* Координаты центра кнопки — от неё расходятся волны */
       var btn  = document.getElementById('themeToggle');
       var rect = btn
         ? btn.getBoundingClientRect()
@@ -28,22 +34,26 @@
       var x = Math.round(rect.left + rect.width  / 2);
       var y = Math.round(rect.top  + rect.height / 2);
 
+      /* Радиус, достаточный чтобы круг накрыл весь экран */
       var r = Math.ceil(Math.hypot(
         Math.max(x, window.innerWidth  - x),
         Math.max(y, window.innerHeight - y)
       ));
 
+      /* Применить новую тему и сохранить выбор */
       function applyTheme() {
         if (newTheme === 'light') html.setAttribute('data-theme', 'light');
         else                      html.removeAttribute('data-theme');
         try { localStorage.setItem('hronometr-theme', newTheme); } catch (e) {}
       }
 
+      /* Уважаем prefers-reduced-motion — просто переключаем без анимации */
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         applyTheme();
         return;
       }
 
+      /* ── Вариант A: View Transitions API (Chrome 111+, Safari 18+) ── */
       if (document.startViewTransition) {
         var vt = document.startViewTransition(applyTheme);
         vt.ready.then(function () {
@@ -64,6 +74,7 @@
         return;
       }
 
+      /* ── Вариант Б: clip-path disc (все браузеры) ───────────────────── */
       var disc = document.createElement('div');
       disc.style.cssText = [
         'position:fixed', 'inset:0', 'z-index:99998', 'pointer-events:none',
@@ -72,7 +83,8 @@
         'will-change:clip-path'
       ].join(';');
       document.body.appendChild(disc);
-      
+
+      /* Двойной rAF — гарантирует repaint перед стартом анимации */
       requestAnimationFrame(function () {
         requestAnimationFrame(function () {
           disc.style.transition = 'clip-path 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -80,6 +92,8 @@
         });
       });
 
+      /* После раскрытия — применяем тему; диск становится невидимым
+         (его фон совпадает с новым фоном страницы) и удаляем его     */
       var applied = false;
       function finish() {
         if (applied) return;
@@ -88,7 +102,7 @@
         disc.remove();
       }
       disc.addEventListener('transitionend', finish, { once: true });
-      setTimeout(finish, 900);
+      setTimeout(finish, 900); /* страховка, если transitionend не сработал */
     };
   </script>
 
@@ -96,11 +110,16 @@
   <meta name="description" content="Определение хронометража текста и расчёт стоимости озвучки диктором онлайн. Числа и единицы измерения переводятся в слова автоматически.">
   <link rel="canonical" href="https://amvoice.ru/hronometr/">
   <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+
+  <!-- Preload шрифтов -->
   <link rel="preload" href="/static/fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Montserrat-600.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/static/fonts/Benzin-Bold.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Preload для ускорения обнаружения -->
   <link rel="preload" href="hronometr.min.css" as="style">
+  <!-- CSS стили -->
   <link rel="stylesheet" href="hronometr.min.css">
 
 </head>
@@ -257,6 +276,7 @@
     </div>
   </main>
 
+  <!-- О сервисе -->
   <section id="about" class="faq">
     <div class="faq-wrapper">
       <h2>О сервисе</h2>
@@ -277,6 +297,7 @@
     </div>
   </section>
 
+  <!-- FAQ -->
   <section id="faq" class="faq">
     <div class="faq-wrapper">
       <h2>Часто задаваемые вопросы</h2>
@@ -395,11 +416,14 @@
     </div>
   </section>
 
+  <!-- Футер -->
   <footer class="footer">
     <div class="footer-container">
       <p>Хронометр текста онлайн © <a href="https://amvoice.ru" target="_blank" rel="noopener" style="color: inherit;">Антон Малютин</a>, 2026</p>
     </div>
   </footer>
+
   <script src="/static/js/hronometr.min.js" defer></script>
+
 </body>
 </html>
