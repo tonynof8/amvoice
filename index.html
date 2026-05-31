@@ -76,24 +76,31 @@
                 <p class="hero-posttitle"><span class="hero-posttitle__name">Антон Малютин </span><span class="hero-posttitle__role">Диктор и актёр озвучивания</span></p>
                 <p class="hero-description"> Ищете где заказать озвучку текста диктором онлайн на русском или английском языке? Профессиональная озвучка для рекламы, автоответчика, IVR, YouTube-роликов, инструкций, обучающих курсов и корпоративных презентаций. Перевод и закадровое
                     озвучивание видео, дубляж. <strong>Живой голос без нейросетей</strong>. </p>
-                <div class="audio-demos hero-row">
-                    <div class="audio-demo" data-lang="ru">
-                        <div class="audio-demo__label"><span class="audio-demo__flag">🔊</span><span class="audio-demo__title">Демо на русском</span></div>
-                        <div class="audio-demo__player"><button class="audio-demo__btn" type="button" aria-label="Воспроизвести"></button>
-                            <div class="audio-demo__progress">
-                                <div class="audio-demo__bar">
-                                    <div class="audio-demo__bar-fill"></div> <input type="range" class="audio-demo__range" min="0" max="100" value="0" step="0.1" aria-label="Перемотка"> </div><span class="audio-demo__time">0:00</span></div><audio class="audio-demo__audio" src="media/demo_ru.mp3"
-                                preload="none"></audio></div>
+                <div class="hero-player" id="heroDemo">
+                    <button class="hp-play" id="hpPlay" type="button" aria-label="Воспроизвести">
+                        <svg class="hp-ico-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                        <svg class="hp-ico-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+                    </button>
+                    <div class="hp-body">
+                        <div class="hp-top">
+                            <span class="hp-label"><span class="hp-dot"></span>Демо голоса</span>
+                            <div class="hp-lang" id="hpLang" data-lang="ru">
+                                <span class="hp-pill"></span>
+                                <button data-l="ru" class="on" type="button">RU</button>
+                                <button data-l="en" type="button">EN</button>
+                            </div>
+                        </div>
+                        <div class="hp-wave" id="hpWave"></div>
+                        <div class="hp-bottom">
+                            <span class="hp-cur" id="hpCur">0:00</span>
+                                <span class="hp-dur" id="hpDur">0:00</span>
+                        </div>
                     </div>
-                    <div class="audio-demo" data-lang="en">
-                        <div class="audio-demo__label"><span class="audio-demo__flag">🔊</span><span class="audio-demo__title">Демо на английском</span></div>
-                        <div class="audio-demo__player"><button class="audio-demo__btn" type="button" aria-label="Воспроизвести"></button>
-                            <div class="audio-demo__progress">
-                                <div class="audio-demo__bar">
-                                    <div class="audio-demo__bar-fill"></div> <input type="range" class="audio-demo__range" min="0" max="100" value="0" step="0.1" aria-label="Перемотка"> </div><span class="audio-demo__time">0:00</span></div><audio class="audio-demo__audio" src="media/demo_en.mp3"
-                                preload="none"></audio></div>
-                    </div>
+                    <audio id="hpAudio" preload="none"></audio>
                 </div>
+                    
+
+
                 <div class="hero-actions hero-row"><a href="#pricing" class="btn large equal calculate"><span class="btn-text-full">Рассчитать стоимость</span><span class="btn-text-short">Стоимость</span></a><a href="#" onclick="showContactModal(); return false;" class="btn large equal order"><span class="btn-text-full">Заказать озвучку</span><span class="btn-text-short">Заказать</span></a></div>
             </div>
             <div class="hero-media"> <img src="static/img/2026.webp" srcset="static/img/2026-sm.webp 440w, static/img/2026.webp 986w" sizes="(max-width: 900px) 220px, 600px" alt="Антон Малютин — диктор и актёр озвучивания" class="hero-media__img" width="986" height="1173" fetchpriority="high">                </div>
@@ -144,7 +151,10 @@
             <p class="section-subtext"> Малая часть примеров работ: озвучка текста, видео на русском и английском языке. Не нашли подходящее? Напишите, сделаем бесплатное демо! </p>
             <div class="portfolio-cards">
                 <div class="portfolio-card">
-                    <div class="portfolio-video" data-video-src="vid/1.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/1.webp" alt="Дикторская озвучка текста на русском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+                    <div class="portfolio-video" data-video-src="vid/1.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/1.webp" alt="Дикторская озвучка текста на русском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    </div>
                     <div
                         class="video-label">
                         <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (YOUTUBE ВИДЕО)</h3>
@@ -152,7 +162,7 @@
                 </div>
             </div>
             <div class="portfolio-card">
-                <div class="portfolio-video" data-video-src="vid/2.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/2.webp" alt="Дикторская озвучка текста на английском (скринкаст)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+                <div class="portfolio-video" data-video-src="vid/2.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/2.webp" alt="Дикторская озвучка текста на английском (скринкаст)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
                 <div
                     class="video-label">
                     <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (СКРИНКАСТ)</h3>
@@ -160,7 +170,7 @@
             </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/3.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/3.webp" alt="Дикторская озвучка текста на русском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/3.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/3.webp" alt="Дикторская озвучка текста на русском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (YOUTUBE ВИДЕО)</h3>
@@ -168,7 +178,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/4.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/4.webp" alt="Дикторская озвучка текста на английском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/4.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/4.webp" alt="Дикторская озвучка текста на английском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (YOUTUBE ВИДЕО)</h3>
@@ -176,7 +186,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/5.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/5.webp" alt="Перевод и закадровое озвучивание видео на русском" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/5.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/5.webp" alt="Перевод и закадровое озвучивание видео на русском" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ПЕРЕВОД И ЗАКАДРОВОЕ ОЗВУЧИВАНИЕ ВИДЕО</h3>
@@ -184,7 +194,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/6.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/6.webp" alt="Дубляж видео на русском (трейлер фильма)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/6.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/6.webp" alt="Дубляж видео на русском (трейлер фильма)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДУБЛЯЖ ВИДЕО (ТРЕЙЛЕР ФИЛЬМА)</h3>
@@ -192,7 +202,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/7.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/7.webp" alt="Озвучка видеоролика на русском (анимация)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/7.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/7.webp" alt="Озвучка видеоролика на русском (анимация)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ОЗВУЧКА ВИДЕОРОЛИКА (АНИМАЦИЯ)</h3>
@@ -200,7 +210,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/8.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/8.webp" alt="Дикторская озвучка текста на русском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/8.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/8.webp" alt="Дикторская озвучка текста на русском (YouTube видео)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (YOUTUBE ВИДЕО)</h3>
@@ -208,7 +218,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/9.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/9.webp" alt="Дикторская озвучка текста на английском (реклама)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/9.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/9.webp" alt="Дикторская озвучка текста на английском (реклама)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (РЕКЛАМА)</h3>
@@ -216,7 +226,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/10.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/10.webp" alt="Дубляж видео на русском (реклама)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/10.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/10.webp" alt="Дубляж видео на русском (реклама)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДУБЛЯЖ ВИДЕО (РЕКЛАМА)</h3>
@@ -224,7 +234,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/11.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/11.webp" alt="Дикторская озвучка текста на русском (реклама)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/11.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/11.webp" alt="Дикторская озвучка текста на русском (реклама)" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ДИКТОРСКАЯ ОЗВУЧКА ТЕКСТА (РЕКЛАМА)</h3>
@@ -232,7 +242,7 @@
         </div>
         </div>
         <div class="portfolio-card">
-            <div class="portfolio-video" data-video-src="vid/12.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/12.webp" alt="Перевод и закадровое озвучивание видео на русском" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="audio-demo__btn portfolio-video__btn" aria-label="Воспроизвести видео"></button></div>
+            <div class="portfolio-video" data-video-src="vid/12.webm" style="position: relative; padding-top: 56.25%; width: 100%; cursor: pointer; background: #1a1a1a;"> <img src="vid/12.webp" alt="Перевод и закадровое озвучивание видео на русском" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"><button type="button" class="portfolio-video__btn" aria-label="Воспроизвести видео"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></button></div>
             <div
                 class="video-label">
                 <h3>ПЕРЕВОД И ЗАКАДРОВОЕ ОЗВУЧИВАНИЕ ВИДЕО</h3>
