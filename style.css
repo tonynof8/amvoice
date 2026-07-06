@@ -23,9 +23,6 @@
   src: url('static/fonts/Benzin-Bold.woff2') format('woff2');
   font-weight: normal;
   font-display: swap;
-  ascent-override: 10%;
-  descent-override: 80%;
-  line-gap-override: 0%;
 }
 
 @font-face {
