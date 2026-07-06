@@ -183,6 +183,7 @@
   .price-val{font-size:2.4rem;font-family:'Benzin',sans-serif;line-height:1;letter-spacing:-1px;white-space:nowrap;
     background:var(--gradient1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .price-val.idle{background:none;-webkit-text-fill-color:rgba(255,252,242,.28);font-size:1.5rem}
+  .price-val:not(.idle){position:relative;top:.08em}
   .price-val small{font-size:1.2rem}
 
   .pay{display:flex;gap:14px;align-items:stretch;margin-top:auto}
