@@ -1,0 +1,251 @@
+/* ============================================================
+   voiceover-calculator.css — стили калькулятора am_voice
+   Переменные заданы в скоупе .panel и не влияют на остальной сайт.
+   ============================================================ */
+
+  /* Переменные калькулятора — скоуп .panel, сайт не затрагивается */
+  .panel{
+    --bg-color:#0a0a0a;--text-color:#FFFCF2;
+    --accent-color:#8b5cf6;--accent-light:#a78bfa;--pink:#ec4899;
+    --gradient1:linear-gradient(135deg,#8b5cf6 0%,#ec4899 100%);
+    --card-bg:rgba(44,44,46,.4);--card-border:rgba(255,255,255,.12);
+    --card-shadow:0 8px 24px rgba(0,0,0,.4);
+    --radius:12px;--radius-lg:22px;
+  }
+  .panel, .panel *{box-sizing:border-box}
+
+  .panel{
+    width:100%;max-width:1200px;position:relative;text-align:left;
+    background:var(--card-bg);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+    border:1px solid var(--card-border);border-radius:var(--radius-lg);
+    box-shadow:var(--card-shadow);overflow:hidden;
+    transition:all .3s ease;
+  }
+  .panel:hover{border-color:#9333ea;box-shadow:0 6px 28px rgba(147,51,234,.4)}
+  .panel-head{padding:26px 30px 22px;text-align:center;border-bottom:1px solid rgba(255,255,255,.08)}
+  .panel-head h2{margin:0 0 6px;font-size:1.7rem;font-weight:800;
+    background:var(--gradient1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .panel-head p{margin:0;font-size:.9rem;opacity:.6}
+
+  .grid{display:block}
+
+  /* ── Сверху: переключатель услуг (линза, как в навбаре) ── */
+  .svc-tabs{position:relative;width:fit-content;max-width:100%;margin:22px auto 0;
+    display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:0;padding:5px;user-select:none;-webkit-user-select:none;
+    background:rgba(0,0,0,.24);border:1px solid rgba(255,255,255,.09);border-radius:16px;
+    box-shadow:inset 0 1px 3px rgba(0,0,0,.3)}
+  .svc-lens{position:absolute;top:5px;left:5px;height:calc(100% - 10px);width:0;border-radius:11px;
+    background:rgba(236,72,153,.1);border:1.5px solid var(--pink);
+    box-shadow:0 0 12px rgba(236,72,153,.35);
+    transition:left .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);
+    z-index:0;pointer-events:none}
+  .tab{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:9px;
+    padding:11px 22px;border-radius:12px;cursor:pointer;white-space:nowrap;background:transparent;
+    font-weight:700;font-size:.92rem;color:rgba(255,252,242,.58);transition:color .25s}
+  .tab:hover{color:rgba(255,252,242,.9)}
+  .tab.active{color:#fff}
+  .tab-ico{display:flex;align-items:center;color:rgba(255,252,242,.5);transition:color .25s}
+  .tab-ico svg{width:20px;height:20px}
+  .tab.active .tab-ico{color:#ffc9e0}
+
+  /* ── Справа: калькулятор ── */
+  .calc{padding:24px 26px;display:flex;flex-direction:column;gap:18px;min-height:620px}
+  .calc-bottom{display:flex;flex-direction:column;gap:12px;margin-top:auto}
+  .extras-title{font-size:.85rem;font-weight:800;color:#fff;margin:0 2px -2px}
+  .calc-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .calc-top h3{margin:0;font-size:1.15rem;font-weight:800}
+  .chip{font-size:.72rem;font-weight:700;padding:5px 11px;border-radius:10px;
+    background:rgba(236,72,153,.1);border:1px solid var(--pink);color:#ffc9e0;white-space:nowrap}
+
+  .field{position:relative}
+  textarea.area{width:100%;min-height:130px;resize:none;background:rgba(0,0,0,.28);
+    border:1.5px solid rgba(255,255,255,.12);border-radius:var(--radius);color:var(--text-color);
+    font:500 1rem/1.55 'Montserrat',sans-serif;padding:15px 15px 40px;outline:none;transition:border-color .2s,box-shadow .2s}
+  textarea.area::placeholder{color:rgba(255,252,242,.38)}
+  textarea.area:focus{border-color:var(--accent-color);box-shadow:0 0 0 4px rgba(139,92,246,.15)}
+  .paste{position:absolute;right:10px;top:10px;border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.05);color:rgba(255,252,242,.8);border-radius:8px;cursor:pointer;
+    font:600 .74rem 'Montserrat',sans-serif;padding:6px 10px;transition:all .2s}
+  .paste:hover{color:#fff;border-color:var(--accent-color);background:rgba(139,92,246,.18)}
+  .minwrap{display:none}.minwrap.show{display:block}
+  .field.hide-text .area,.field.hide-text .counter,.field.hide-text .paste{display:none}
+  .min-input{width:100%;background:rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.12);
+    border-radius:var(--radius);color:var(--text-color);font:500 1rem/1.55 'Montserrat',sans-serif;
+    padding:16px 15px;outline:none;transition:border-color .2s,box-shadow .2s;
+    -moz-appearance:textfield;appearance:textfield}
+  .min-input::placeholder{color:rgba(255,252,242,.38)}
+  .min-input::-webkit-outer-spin-button,.min-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .min-input:focus{border-color:var(--accent-color);box-shadow:0 0 0 4px rgba(139,92,246,.15)}
+  .min-hint{font-size:.74rem;opacity:.5;margin:8px 2px 0}
+
+  /* ── Степпер минут (видео) ── */
+  .stepper{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    background:rgba(0,0,0,.28);border:1.5px solid rgba(255,255,255,.12);border-radius:var(--radius);
+    padding:8px 10px 8px 16px;transition:border-color .2s,box-shadow .2s}
+  .stepper:focus-within{border-color:var(--accent-color);box-shadow:0 0 0 4px rgba(139,92,246,.15)}
+  .stepper-label{font-size:.92rem;font-weight:700;color:rgba(255,252,242,.85)}
+  .stepper-ctrl{display:inline-flex;align-items:center;gap:2px}
+  .step-btn{width:40px;height:40px;flex:0 0 40px;border:none;background:transparent;
+    color:rgba(255,252,242,.7);font-size:1.5rem;font-weight:600;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;line-height:1;border-radius:10px;
+    transition:background .16s,color .16s,transform .1s;user-select:none}
+  .step-btn:hover{background:rgba(139,92,246,.2);color:#fff}
+  .step-btn:active{transform:scale(.9)}
+  .stepper .min-input{width:56px;text-align:center;background:transparent;border:none;
+    color:var(--text-color);font:800 1.35rem 'Montserrat',sans-serif;padding:0;outline:none}
+  .stepper .min-input:focus{box-shadow:none;border:none}
+  @media(max-width:780px){
+    .stepper{justify-content:center;padding:12px 10px 14px}
+    .stepper-label{width:100%;text-align:center}
+  }
+
+
+  /* ── ЖИВАЯ ШКАЛА (под полем ввода) ── */
+  .ladder-wrap{margin-top:-2px}
+  .ladder-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+  .ladder-now{font-size:.8rem;font-weight:700}
+  .ladder-hint{font-size:.72rem;opacity:.6}
+  .ladder-hint em{font-style:normal;color:var(--accent-light);font-weight:700}
+  .ladder{position:relative;height:40px;border-radius:11px;overflow:hidden;
+    background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.1);display:flex}
+  .seg{position:relative;display:flex;align-items:center;justify-content:center;
+    border-right:1px dashed rgba(255,255,255,.14);transition:background .3s}
+  .seg:first-child{border-top-left-radius:10px;border-bottom-left-radius:10px}
+  .seg-last{border-right:none;border-top-right-radius:10px;border-bottom-right-radius:10px}
+  .seg.on{background:rgba(139,92,246,.22);box-shadow:inset 0 0 0 1px rgba(167,139,250,.35)}
+  .seg-label{font-size:.66rem;font-weight:700;opacity:.5;z-index:2;text-align:center;line-height:1.15;padding:0 4px;transition:all .3s}
+  .seg.on .seg-label{opacity:1;color:#fff;font-weight:800;font-size:.82rem;text-shadow:0 0 12px rgba(167,139,250,.8)}
+  .fill{position:absolute;left:0;top:0;bottom:0;width:0;overflow:hidden;
+    background:linear-gradient(90deg,rgba(139,92,246,.55),rgba(236,72,153,.5),rgba(139,92,246,.55));
+    background-size:200% 100%;animation:ladderFlow 4s ease-in-out infinite alternate;
+    transition:width .5s cubic-bezier(.22,1,.36,1);z-index:1;pointer-events:none}
+  @keyframes ladderFlow{0%{background-position:0% 0}100%{background-position:100% 0}}
+  .marker{position:absolute;top:-4px;bottom:-4px;width:2px;background:#fff;z-index:3;
+    box-shadow:0 0 12px rgba(255,255,255,.9);transition:left .5s cubic-bezier(.22,1,.36,1);pointer-events:none}
+  .marker::after{content:'';position:absolute;left:-5px;top:50%;width:11px;height:11px;margin-top:-5.5px;
+    border-radius:50%;background:#fff;box-shadow:0 0 14px rgba(167,139,250,1)}
+  .ladder-axis{display:flex;justify-content:space-between;font-size:.64rem;opacity:.4;margin-top:6px}
+  .ladder-note{font-size:.72rem;opacity:.45;margin:10px 2px 0;line-height:1.4}
+
+  /* ── Опция субтитров (переключатель как RU/EN в плеере) ── */
+  .sub-row{display:none;align-items:center;justify-content:space-between;gap:12px;
+    padding:11px 14px;border-radius:12px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.08);
+    transition:background .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .sub-row.show{display:flex}
+  .sub-row.disabled{opacity:.38;pointer-events:none;filter:grayscale(.4)}
+  .sub-row.on{background:rgba(139,92,246,.12);border-color:rgba(167,139,250,.5);box-shadow:0 0 15px rgba(139,92,246,.2)}
+  .sub-row.on .sub-ico{background:rgba(139,92,246,.3);color:#fff}
+  .sub-row.on .sub-title{color:#fff}
+  .sub-info{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+  .sub-ico{flex:0 0 auto;width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    background:rgba(139,92,246,.15);color:var(--accent-light)}
+  .sub-ico svg{width:17px;height:17px}
+  .sub-title{font-size:.9rem;font-weight:700}
+  .sub-price{font-size:.74rem;opacity:.6}
+  .sub-toggle{position:relative;flex:0 0 auto;width:58px;height:28px;padding:3px;border-radius:9px;cursor:pointer;
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+    transition:box-shadow .3s ease,border-color .3s ease}
+  .sub-toggle[data-on="true"]{border-color:rgba(167,139,250,.5);box-shadow:0 0 13px rgba(139,92,246,.45)}
+  .sub-pill{position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:7px;
+    background:rgba(255,255,255,.18);
+    transition:transform .28s cubic-bezier(.34,1.4,.64,1),box-shadow .3s ease}
+  .sub-pill::before{content:'';position:absolute;inset:0;border-radius:inherit;
+    background:var(--gradient1);opacity:0;transition:opacity .3s ease}
+  .sub-toggle[data-on="true"] .sub-pill{transform:translateX(100%);box-shadow:0 3px 10px rgba(139,92,246,.5)}
+  .sub-toggle[data-on="true"] .sub-pill::before{opacity:1}
+
+  /* ── Цена + срок + CTA ── */
+  /* ── Цена + срок + CTA ── */
+  .price-line{display:flex;align-items:center;justify-content:space-between;gap:14px;position:relative;
+    height:60px;padding:0 18px;border-radius:12px;
+    background:linear-gradient(135deg,rgba(139,92,246,.14),rgba(236,72,153,.1));
+    border:1px solid rgba(167,139,250,.28)}
+  .price-meta{display:flex;flex-direction:column;gap:3px}
+  .price-meta .lbl{font-size:.74rem;opacity:.6;font-weight:600}
+  .price-meta .deadline{font-size:.78rem;opacity:.8}
+  .price-wrap{display:inline-flex;align-items:flex-end}
+  .price-wrap.has-info{cursor:help}
+  .info-pop{position:absolute;bottom:calc(100% + 12px);right:0;width:max-content;max-width:250px;
+    padding:11px 13px;border-radius:11px;background:var(--card-bg);
+    backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
+    border:2px solid var(--card-border);
+    box-shadow:0 12px 32px rgba(0,0,0,.55);opacity:0;visibility:hidden;pointer-events:none;
+    transform:translateY(5px);transition:opacity .2s ease,transform .2s ease;z-index:30;
+    font-size:.76rem;font-weight:500;line-height:1.4;color:#fff;text-align:left}
+  .price-wrap.has-info:hover .info-pop,.price-wrap.has-info.open .info-pop{opacity:1;visibility:visible;transform:translateY(0)}
+  .info-pop .ln{display:flex;justify-content:space-between;gap:20px}
+  .info-pop .ln+.ln{margin-top:5px}
+  .info-pop .ln span{opacity:.75}
+  .info-pop .ln b{font-weight:700;white-space:nowrap}
+  .info-pop .ln.tot{margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.15)}
+  .info-pop .ln.tot span{opacity:1;font-weight:700}
+  .info-pop .ln.tot b{color:#ffc9e0}
+  .price-val{font-size:2.4rem;font-family:'Benzin',sans-serif;line-height:normal;letter-spacing:-1px;white-space:nowrap;
+    background:var(--gradient1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .price-val.idle{background:none;-webkit-text-fill-color:rgba(255,252,242,.28);font-size:1.5rem}
+  .price-val small{font-size:1.2rem}
+
+  .pay{display:flex;gap:14px;align-items:stretch;margin-top:auto}
+  .pay .price-line{flex:1}
+  .cta{flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;font:600 1.02rem 'Montserrat',sans-serif;cursor:pointer;height:60px;padding:0 30px;border-radius:12px;
+    background:rgba(236,72,153,.1);border:2px solid var(--pink);color:#ffc9e0;
+    box-shadow:0 0 15px rgba(236,72,153,.3);transition:all .25s ease}
+  .cta:hover{color:#fff;border-color:#f472b6;background:rgba(236,72,153,.2);
+    box-shadow:0 0 25px rgba(236,72,153,.5),0 0 40px rgba(236,72,153,.25);transform:translateY(-2px)}
+  .cta:disabled{opacity:.4;cursor:default;box-shadow:none;transform:none}
+
+  .panel-foot{text-align:center;font-size:.7rem;opacity:.4;padding:13px;border-top:1px solid rgba(255,255,255,.07)}
+
+  /* ── Замануха: компактная подсказка-намёк (мобайл) ── */
+  .hook{display:none;align-items:center;gap:9px;max-height:0;opacity:0;overflow:hidden;margin-top:0;cursor:pointer;
+    padding:0 13px;border-radius:10px;background:rgba(236,72,153,.07);border:1px solid rgba(236,72,153,.22);
+    transition:max-height .45s cubic-bezier(.22,1,.36,1),opacity .4s ease,margin-top .45s ease,padding .45s ease,background .2s,border-color .2s}
+  .hook.show{max-height:90px;opacity:1;margin-top:10px;padding:9px 13px}
+  .hook:hover{background:rgba(236,72,153,.13);border-color:rgba(236,72,153,.45)}
+  .hook-ico{flex:0 0 auto;display:flex;color:var(--pink)}
+  .hook-ico svg{width:16px;height:16px}
+  .hook-text{font-size:.8rem;font-weight:600;opacity:.85;line-height:1.3}
+
+  /* ── Иконка-намёк (десктоп): между стоимостью и кнопкой ── */
+  .hook-icon{position:relative;flex:0 0 auto;width:60px;height:60px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.32);
+    transition:all .3s ease;pointer-events:none}
+  .hook-icon svg{width:24px;height:24px}
+  .hook-icon.lit{background:rgba(236,72,153,.1);border:2px solid var(--pink);color:#ffc9e0;cursor:pointer;
+    pointer-events:auto;box-shadow:0 0 15px rgba(236,72,153,.3);animation:hookGlow 2.2s ease-in-out infinite}
+  .hook-icon.lit:hover{color:#fff;border-color:#f472b6;background:rgba(236,72,153,.2)}
+  .hook-icon.lit::after{content:'';position:absolute;inset:-2px;border-radius:14px;border:2px solid var(--pink);
+    opacity:0;animation:hookRipple .7s ease-out}
+  @keyframes hookRipple{from{transform:scale(1);opacity:.7}to{transform:scale(1.7);opacity:0}}
+  @keyframes hookGlow{0%,100%{box-shadow:0 0 15px rgba(236,72,153,.3)}50%{box-shadow:0 0 25px rgba(236,72,153,.55)}}
+  .hook-tip{position:absolute;bottom:calc(100% + 12px);right:0;width:240px;
+    background:var(--card-bg);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%);
+    border:2px solid var(--card-border);border-radius:11px;padding:11px 13px;
+    font-size:.8rem;font-weight:600;line-height:1.4;color:#fff;text-align:left;
+    opacity:0;visibility:hidden;transform:translateY(6px);transition:.2s ease;pointer-events:none;
+    box-shadow:0 12px 32px rgba(0,0,0,.55);z-index:30}
+  .hook-icon.lit:hover .hook-tip{opacity:1;visibility:visible;transform:translateY(0)}
+
+  @media(max-width:780px){
+    .grid{display:block}
+    .panel{border:none}
+    .panel:hover{border-color:transparent;box-shadow:var(--card-shadow)}
+    .panel-head h2{font-size:1.2rem}
+    .calc{min-height:auto;padding:18px 14px}
+    .calc-top h3{font-size:.9rem}
+    .pay{margin-top:0}
+    .svc-tabs{margin-top:16px;padding:4px}
+    .tab{padding:9px 12px;font-size:.8rem;gap:6px}
+    .tab-ico svg{width:17px;height:17px}
+    .pay{flex-direction:column}
+    .cta{width:100%}
+    .seg-label{font-size:.58rem}
+    .seg.on .seg-label{font-size:.7rem}
+    .hook{display:flex}
+    .hook-icon{display:none}
+    .hook.show{max-height:130px}
+    .pay .price-line{flex:0 0 auto;align-items:center}
+    .price-val{font-size:2rem}
+    .price-meta{gap:4px}
+  }

@@ -27,8 +27,9 @@
     <link rel="preload" href="static/fonts/Montserrat-600.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="static/fonts/Montserrat-800.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="static/fonts/Benzin-Bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="style.min.css" as="style">
-    <link rel="stylesheet" href="style.min.css"> </head>
+    <link rel="preload" href="style.css" as="style">
+    <link rel="stylesheet" href="style.css"> </head>
+    <link rel="stylesheet" href="calc.css">
 
 <body>
     <header class="navbar">
@@ -42,7 +43,7 @@
             <a href="#reviews" data-section="reviews">Отзывы</a>
             <a href="#faq" data-section="faq">FAQ</a>
             <a href="#contacts" data-section="contacts">Контакты</a>
-            <a href="/hronometr/" class="nav-hrono">
+            <a href="/hronometr" class="nav-hrono">
                 <img src="/static/ico/hrono.svg" alt="Hrono" aria-hidden="true" width="16" height="16">
                 Хронометр
             </a>
@@ -60,7 +61,7 @@
         <a href="#reviews">Отзывы</a>
         <a href="#faq">FAQ</a>
         <a href="#contacts" class="highlight">Контакты</a>
-        <a href="/hronometr/" class="nav-hrono">
+        <a href="/hronometr" class="nav-hrono">
             <img src="/static/ico/hrono.svg" alt="Hrono" aria-hidden="true" width="20" height="20">
             Хронометр
         </a>
@@ -72,7 +73,7 @@
             class="hero-wrapper">
             <div class="hero-content">
                 <h1 class="hero-h1">Озвучка текста и видео диктором онлайн</h1>
-                <p class="hero-title"><span class="hero-title__line1">НУЖНА</span><span class="hero-title__line2" data-text="ОЗВУЧКА?">ОЗВУЧКА?</span></p>
+                <p class="hero-title"><span class="hero-title__line1">НУЖНА </span><span class="hero-title__line2" data-text="ОЗВУЧКА?">ОЗВУЧКА?</span></p>
                 <p class="hero-posttitle"><span class="hero-posttitle__name">Антон Малютин </span><span class="hero-posttitle__role">Диктор и актёр озвучивания</span></p>
                 <p class="hero-description"> Ищете где заказать озвучку текста диктором онлайн на русском или английском языке? Профессиональная озвучка для рекламы, автоответчика, IVR, YouTube-роликов, инструкций, обучающих курсов и корпоративных презентаций. Перевод и закадровое
                     озвучивание видео, дубляж. <strong>Живой голос без нейросетей</strong>. </p>
@@ -255,119 +256,101 @@
     <section id="pricing" class="pricing">
         <div class="pricing-wrapper">
             <h2>Стоимость</h2>
-            <p class="section-subtext"> Калькулятор и таблица тарифов с минимальной стоимостью заказа. Если запутались, напишите мне! </p>
-            <div class="calc-container">
-                <div class="calc-main-wrapper">
-                    <div class="calc-calculator-wrapper">
-                        <div class="calc-drop-overlay" id="calc-dropOverlay">
-                            <div class="calc-drop-content">
-                                <div class="calc-drop-icon">📄</div>
-                                <div class="calc-drop-text">Отпустите файл для загрузки</div>
-                            </div>
-                        </div>
-                        <div class="calc-calculator-header"><span class="calc-title">🎙️ Калькулятор стоимости</span><span class="calc-subtitle">Перетащите текстовый документ или введите данные вручную</span></div>
-                        <div class="calc-calculator-body">
-                            <div class="calc-input-group"><label for="calc-serviceSelect">Выберите услугу</label>
-                                <div class="calc-input-with-icon"><select id="calc-serviceSelect"><option value="voice_text">Озвучка текста</option><option value="voice_video">Озвучка видео</option><option value="translate_text">Перевод текста</option><option value="translate_voice">Перевод + озвучка видео</option><option value="voice_camera">Озвучка текста на камеру</option></select>
-                                    <button
-                                        type="button" id="calc-urgentToggle" class="calc-urgent-toggle" onclick="calcToggleUrgent()"><span class="calc-urgent-icon">⚡</span><span class="calc-urgent-text">СРОЧНО</span></button>
-                                </div>
-                            </div>
-                            <div class="calc-input-group"><label for="calc-manualInput">Количество</label>
-                                <div class="calc-input-with-icon"> <input type="number" id="calc-manualInput" placeholder="Введите количество слов" /> <button type="button" id="calc-modeToggle" class="calc-urgent-toggle" onclick="calcToggleMode()"><span class="calc-mode-icon">📝</span><span class="calc-mode-text">ТЕКСТ</span></button>                                    <input type="file" id="calc-fileInput" accept=".txt,.docx" style="display: none;" /> </div>
-                            </div><button type="button" class="btn calculate" onclick="calcCalculate()">Рассчитать стоимость</button>
-                            <div id="calc-result">
-                                <div class="calc-result-container">
-                                    <div id="calc-fileZone" class="calc-file-zone">
-                                        <div class="calc-file-zone-content" onclick="document.getElementById('calc-fileInput').click()">
-                                            <div class="calc-file-zone-icon">📄</div>
-                                            <div class="calc-file-zone-title">Перетащите текстовый файл сюда</div>
-                                            <div class="calc-file-zone-subtitle">или нажмите для выбора</div>
-                                            <div class="calc-file-zone-formats">txt, docx</div>
-                                        </div>
-                                        <div class="calc-file-zone-loader calc-hidden">
-                                            <div class="calc-spinner"></div>
-                                            <div class="calc-file-zone-loading-text">Обработка файла...</div>
-                                        </div>
-                                    </div>
-                                    <div id="calc-textZone" class="calc-text-zone calc-hidden"><textarea id="calc-textArea" class="calc-text-area" placeholder="Вставьте или введите текст для подсчёта слов и символов..."></textarea>
-                                        <div class="calc-text-stats">
-                                            <div class="calc-text-stat"><span class="calc-text-stat-icon">📄</span><span class="calc-text-stat-label">Слов:</span><span id="calc-textWordCount" class="calc-text-stat-value">0</span></div>
-                                            <div class="calc-text-stat"><span class="calc-text-stat-icon">📝</span><span class="calc-text-stat-label">Символов:</span><span id="calc-textCharCount" class="calc-text-stat-value">0</span></div>
-                                        </div>
-                                    </div>
-                                    <div id="calc-resultContent" class="calc-result-content calc-hidden">
-                                        <div class="calc-tooltip-info" id="calc-tooltipText">⚡ Загрузите txt или docx...</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <footer class="calc-footer"> © Антон Малютин (am_voice), 2026 </footer>
-                    </div>
-                    <div class="calc-pricing-wrapper">
-                        <div class="calc-pricing-header"><span class="calc-title">💰 Стоимость и тарифы</span><span class="calc-subtitle">Стоимость озвучки, дубляжа и перевода.</span></div>
-                        <div class="calc-pricing-body">
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Озвучка рекламы, shorts, tiktok</div>
-                                    <div class="calc-pricing-item-price">500 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">1 текст до 120 слов (~ 1 минута) • 500 ₽ / 1 текст</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Дубляж</div>
-                                    <div class="calc-pricing-item-price">500 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 60 слов (~ 30 секунд) • 1000 ₽ / 1 минута</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Озвучка текста</div>
-                                    <div class="calc-pricing-item-price">500 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 240 слов (~ 2 минуты) • 250 ₽ / 1 минута</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Озвучка длинного текста</div>
-                                    <div class="calc-pricing-item-price">2000 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 1200 слов и выше (~ 10 минут) • 200 ₽ / 1 минута</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Озвучка XXXL текста</div>
-                                    <div class="calc-pricing-item-price">2900 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 2040 слов и выше (~ 17 минут) • 167 ₽ / 1 минута</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Озвучка видео с синхронизацией</div>
-                                    <div class="calc-pricing-item-price">500 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 100 секунд длительности видео • 300 ₽ / 1 минута</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Перевод и озвучка видео</div>
-                                    <div class="calc-pricing-item-price">900 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 2 минут длительности видео • 450 ₽ / 1 минута</div>
-                            </div>
-                            <div class="calc-pricing-item">
-                                <div class="calc-pricing-item-header">
-                                    <div class="calc-pricing-item-title">Озвучка на камеру "Говорящая голова"</div>
-                                    <div class="calc-pricing-item-price">6000 ₽</div>
-                                </div>
-                                <div class="calc-pricing-item-details">до 600 слов (~ 5 минут) • 1000 ₽ / 1 минута</div>
-                            </div>
-                        </div>
-                        <footer class="calc-footer"> Все цены актуальны по состоянию на <span id="calc-currentDate"></span></footer>
-                    </div>
-                </div>
+            <p class="section-subtext"> Калькулятор стоимости озвучки текста, видео, перевода и прочих услуг. Если запутались, напишите мне! </p>
+            
+<div class="panel" id="panel">
+  <div class="panel-head">
+    <h2>Калькулятор стоимости</h2>
+    <p>Чем больше объём — тем выгоднее тариф</p>
+  </div>
+
+  <div class="svc-tabs" id="svcTabs"><div class="svc-lens" id="svcLens"></div></div>
+
+  <div class="grid">
+    <div class="calc">
+      <div class="calc-top">
+        <h3 id="calcTitle">Озвучка текста</h3>
+        <span class="chip" id="calcChip">от 500 ₽</span>
+      </div>
+
+      <div class="field" id="field">
+        <textarea class="area" id="area" placeholder="Вставьте или введите текст в данное поле."></textarea>
+        <button class="paste" id="paste">Вставить</button>
+        <div class="minwrap" id="minwrap">
+          <div class="stepper">
+            <span class="stepper-label">Длительность видео, мин</span>
+            <div class="stepper-ctrl">
+              <button class="step-btn" id="minMinus" type="button" aria-label="Минус минута">&minus;</button>
+              <input type="number" class="min-input" id="minInput" min="0" placeholder="0">
+              <button class="step-btn" id="minPlus" type="button" aria-label="Плюс минута">+</button>
             </div>
+          </div>
+          <p class="min-hint">Кнопками ±1 минута или введите число вручную. Округляйте в большую сторону: 6 мин 3 сек → 7 минут.</p>
+        </div>
+      </div>
+
+      <div class="ladder-wrap">
+        <div class="ladder-top">
+          <span class="ladder-now" id="ladderNow">Введите объём</span>
+          <span class="ladder-hint" id="ladderHint"></span>
+        </div>
+        <div class="ladder" id="ladder"></div>
+        <div class="ladder-axis"><span>0</span><span id="axisMax"></span></div>
+        <p class="ladder-note" id="ladderNote">Хронометраж текста является приблизительным и служит для расчёта стоимости. Длительность итоговой записи может отличаться в зависимости от языка озвучивания, сложности текста и темпа начитки. Стоимость считается по минутам, из расчёта 1 минута = 125 слов.</p>
+      </div>
+
+      <div class="calc-bottom">
+      <div class="extras-title">Дополнительные услуги</div>
+      <div class="sub-row" id="transRow">
+        <span class="sub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h7"/><path d="M8 4.5C8 9 6 13 3 15.5"/><path d="M5 10.5c1.8 2.2 4 3.8 6.5 4.8"/><path d="M13.5 20l4-9 4 9"/><path d="M15 16.5h5"/></svg></span>
+        <div class="sub-info"><span class="sub-title">Перевод</span><span class="sub-price" id="transPrice">RU ↔ EN</span></div>
+        <div class="sub-toggle" id="transToggle" data-on="false" role="switch" aria-checked="false"><span class="sub-pill"></span></div>
+      </div>
+      <div class="sub-row" id="subRow">
+        <span class="sub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8.5 11.3a1.7 1.7 0 0 0-2.9 1.2 1.7 1.7 0 0 0 2.9 1.2"/><path d="M14.5 11.3a1.7 1.7 0 0 0-2.9 1.2 1.7 1.7 0 0 0 2.9 1.2"/></svg></span>
+        <div class="sub-info"><span class="sub-title">Субтитры к видео</span><span class="sub-price">+100 ₽/мин</span></div>
+        <div class="sub-toggle" id="subToggle" data-on="false" role="switch" aria-checked="false">
+          <span class="sub-pill"></span>
+        </div>
+      </div>
+
+      <div class="sub-row show" id="urgRow">
+        <span class="sub-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
+        <div class="sub-info"><span class="sub-title">Срочность</span><span class="sub-price">В течение 24 часов</span></div>
+        <div class="sub-toggle" id="urgToggle" data-on="false" role="switch" aria-checked="false">
+          <span class="sub-pill"></span>
+        </div>
+      </div>
+
+      <div class="pay">
+        <div class="price-line">
+          <div class="price-meta">
+            <span class="lbl" id="priceLbl">Стоимость</span>
+            <span class="deadline" id="deadline"></span>
+          </div>
+          <span class="price-wrap" id="priceWrap">
+            <span class="price-val idle" id="priceVal">— <small>₽</small></span>
+            <span class="info-pop" id="costPop"></span>
+          </span>
+        </div>
+        <div class="hook-icon" id="hookIcon" aria-label="Особые условия для большого заказа">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>
+          <span class="hook-tip">Нужна постоянная озвучка для канала? Или у Вас большой заказ и ограничен бюджет? Напишите мне — обсудим индивидуальные условия!</span>
+        </div>
+        <button class="cta" id="cta" disabled>Заказать →</button>
+      </div>
+
+      <div class="hook" id="hook">
+        <span class="hook-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.5L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg></span>
+        <span class="hook-text">Нужна постоянная озвучка для канала? Или у Вас большой заказ и ограничен бюджет? Напишите мне — обсудим индивидуальные условия!</span>
+      </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-foot">© Антон Малютин (am_voice), 2026</div>
+            
         </div>
     </section>
     <section id="reviews" class="reviews">
@@ -621,12 +604,12 @@
             <div class="contact-card">
                 <div class="avatar-wrapper"> <img src="static/img/avatar.webp" alt="Антон Малютин"><span class="online-indicator"></span></div>
             </div>
-            <div class="contacts-content"><a href="https://vk.com/am_voice" target="_blank" rel="noopener" class="btn btn-vk"> <img src="static/img/vk.svg" alt="VK" class="btn-icon" loading="lazy" decoding="async"> Написать в VK </a><a href="https://t.me/am_voice" target="_blank" rel="noopener"
-                    class="btn btn-telegram"> <img src="static/img/tg.svg" alt="TG" class="btn-icon" loading="lazy" decoding="async"> Написать в Telegram </a><a href="https://wa.me/+79493255256" target="_blank" rel="noopener" class="btn btn-whatsapp"> <img src="static/img/whatsapp.svg" alt="Whatsapp" class="btn-icon" loading="lazy" decoding="async"> Написать в WhatsApp </a>
+            <div class="contacts-content"><a href="https://vk.com/am_voice" target="_blank" rel="noopener" class="btn btn-vk"> <img src="static/img/vk.svg" alt="VK" class="btn-icon" loading="lazy" decoding="async"> VK </a><a href="https://t.me/am_voice" target="_blank" rel="noopener"
+                    class="btn btn-telegram"> <img src="static/img/tg.svg" alt="TG" class="btn-icon" loading="lazy" decoding="async"> Telegram </a><a href="https://wa.me/+79493255256" target="_blank" rel="noopener" class="btn btn-whatsapp"> <img src="static/img/whatsapp.svg" alt="Whatsapp" class="btn-icon" loading="lazy" decoding="async"> WhatsApp </a>
                 <a
-                    href="https://kwork.ru/user/am_voice" target="_blank" rel="noopener" class="btn btn-kwork"> <img src="static/img/kwork.svg" alt="Kwork" class="btn-icon" loading="lazy" decoding="async"> Я на бирже KWORK </a><a href="#" class="btn btn-email" onclick="copyEmail(); return false;"> <img src="static/img/email.svg" alt="Email" class="btn-icon" loading="lazy" decoding="async"> Скопировать Email </a>
+                    href="https://kwork.ru/user/am_voice" target="_blank" rel="noopener" class="btn btn-kwork"> <img src="static/img/kwork.svg" alt="Kwork" class="btn-icon" loading="lazy" decoding="async"> Kwork </a><a href="#" class="btn btn-email" onclick="copyEmail(); return false;"> <img src="static/img/email.svg" alt="Email" class="btn-icon" loading="lazy" decoding="async"> Email </a>
                     <a
-                        href="https://t.me/am_voicebot" target="_blank" rel="noopener" class="btn btn-bot"> <img src="static/img/tg-bot.svg" alt="TGbot" class="btn-icon" loading="lazy" decoding="async"> Telegram бот </a>
+                        href="https://t.me/am_voicebot" target="_blank" rel="noopener" class="btn btn-bot"> <img src="static/img/tg-bot.svg" alt="TGbot" class="btn-icon" loading="lazy" decoding="async"> TG-бот </a>
             </div>
         </div>
         </div>
@@ -637,35 +620,26 @@
         <p>© Антон Малютин (<a href="https://t.me/am_voice" target="_blank" rel="noopener noreferrer" style="color: inherit;">am_voice</a>), 2026</p>
     </div>
 </footer>
-<div id="orderModal" class="calc-modal">
-    <div class="calc-modal-overlay" onclick="closeOrderModal()"></div>
-    <div class="calc-modal-content calc-modal-small">
-        <div class="calc-modal-header">
-            <h3>📞 Выберите удобный способ связи</h3><button class="calc-modal-close" onclick="closeOrderModal()">✕</button></div>
-        <div class="calc-modal-body">
+<div id="orderModal" class="modal">
+    <div class="modal-overlay" onclick="closeOrderModal()"></div>
+    <div class="modal-content modal-small">
+        <div class="modal-header">
+            <h3>📞 Выберите удобный способ связи</h3><button class="modal-close" onclick="closeOrderModal()">✕</button></div>
+        <div class="modal-body">
             <p style="text-align: center; margin-bottom: 20px; opacity: 0.8; font-size: 0.95rem;"> Свяжитесь со мной любым удобным способом </p>
-            <div class="calc-contact-buttons"><a href="https://t.me/am_voice" target="_blank" class="calc-contact-btn calc-contact-telegram"> <img src="static/img/tg.svg" alt="TG" class="calc-contact-icon" loading="lazy" decoding="async"><div class="calc-contact-info"><div class="calc-contact-name">Telegram</div><div class="calc-contact-desc">@am_voice</div></div></a>
-                <a
-                    href="https://wa.me/79493255256" target="_blank" class="calc-contact-btn calc-contact-whatsapp"> <img src="static/img/whatsapp.svg" alt="Whatsapp" class="calc-contact-icon" loading="lazy" decoding="async">
-                    <div class="calc-contact-info">
-                        <div class="calc-contact-name">WhatsApp</div>
-                        <div class="calc-contact-desc">+7 949 325-52-56</div>
-                    </div>
-                    </a><a href="https://vk.com/am_voice" target="_blank" class="calc-contact-btn calc-contact-vk"> <img src="static/img/vk.svg" alt="VK" class="calc-contact-icon" loading="lazy" decoding="async"><div class="calc-contact-info"><div class="calc-contact-name">ВКонтакте</div><div class="calc-contact-desc">vk.com/am_voice</div></div></a>
-                    <a
-                        href="#" class="calc-contact-btn calc-contact-email" onclick="copyEmailFromModal(); return false;"> <img src="static/img/email.svg" alt="Email" class="calc-contact-icon" loading="lazy" decoding="async">
-                        <div class="calc-contact-info">
-                            <div class="calc-contact-name">Email</div>
-                            <div class="calc-contact-desc">i@nof8.ru</div>
-                        </div>
-                        </a>
+            <div class="contacts-content">
+                <a href="https://vk.com/am_voice" target="_blank" rel="noopener" class="btn btn-vk"> <img src="static/img/vk.svg" alt="VK" class="btn-icon" loading="lazy" decoding="async"> VK </a>
+                <a href="https://t.me/am_voice" target="_blank" rel="noopener" class="btn btn-telegram"> <img src="static/img/tg.svg" alt="TG" class="btn-icon" loading="lazy" decoding="async"> Telegram </a>
+                <a href="https://wa.me/+79493255256" target="_blank" rel="noopener" class="btn btn-whatsapp"> <img src="static/img/whatsapp.svg" alt="Whatsapp" class="btn-icon" loading="lazy" decoding="async"> WhatsApp </a>
+                <a href="https://kwork.ru/user/am_voice" target="_blank" rel="noopener" class="btn btn-kwork"> <img src="static/img/kwork.svg" alt="Kwork" class="btn-icon" loading="lazy" decoding="async"> Kwork </a>
+                <a href="#" class="btn btn-email" onclick="copyEmail(); return false;"> <img src="static/img/email.svg" alt="Email" class="btn-icon" loading="lazy" decoding="async"> Email </a>
+                <a href="https://t.me/am_voicebot" target="_blank" rel="noopener" class="btn btn-bot"> <img src="static/img/tg-bot.svg" alt="TGbot" class="btn-icon" loading="lazy" decoding="async"> TG-бот </a>
             </div>
         </div>
     </div>
 </div>
-<script src="static/js/pricing.min.js" defer></script>
-<script src="static/js/voiceprice.min.js" defer></script>
-<script src="static/js/main.min.js" defer></script>
+<script src="static/js/calc.js" defer></script>
+<script src="static/js/main.js" defer></script>
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
