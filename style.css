@@ -19,10 +19,13 @@
 }
 
 @font-face {
-    font-family: 'Benzin';
+  font-family: 'Benzin';
   src: url('static/fonts/Benzin-Bold.woff2') format('woff2');
   font-weight: normal;
   font-display: swap;
+  ascent-override: 80%;
+  descent-override: 10%;
+  line-gap-override: 0%;
 }
 
 @font-face {
