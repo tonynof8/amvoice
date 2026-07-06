@@ -180,7 +180,7 @@
   .info-pop .ln.tot{margin-top:7px;padding-top:7px;border-top:1px solid rgba(255,255,255,.15)}
   .info-pop .ln.tot span{opacity:1;font-weight:700}
   .info-pop .ln.tot b{color:#ffc9e0}
-  .price-val{font-size:2.4rem;font-family:'Benzin',sans-serif;line-height:normal;letter-spacing:-1px;white-space:nowrap;
+  .price-val{font-size:2.4rem;font-family:'Benzin',sans-serif;line-height:1;letter-spacing:-1px;white-space:nowrap;
     background:var(--gradient1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
   .price-val.idle{background:none;-webkit-text-fill-color:rgba(255,252,242,.28);font-size:1.5rem}
   .price-val small{font-size:1.2rem}
