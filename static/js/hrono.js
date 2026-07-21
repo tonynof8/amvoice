@@ -37,7 +37,7 @@
         const wordCount = countWordsInNumber(match.replace(/[.,]/g, ''));
         return ' СЛОВО '.repeat(wordCount).trim();
       });
-      text = text.replace(/-/g, ' ').replace(/[^\wа-яА-ЯёЁ\s]/g, ' ').replace(/\s+/g, ' ').trim();
+      text = text.replace(/['’]/g, '').replace(/-/g, ' ').replace(/[^\wа-яА-ЯёЁ\s]/g, ' ').replace(/\s+/g, ' ').trim();
       return text.split(' ').filter(w => w.trim() !== '').length;
     }
 

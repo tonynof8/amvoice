@@ -6,7 +6,7 @@
 
 /* ─────────────  РАСЧЁТ  ───────────── */
 function countWordsInNumber(num){num=Math.abs(parseInt(num));if(num===0)return 1;if(num<=20)return 1;if(num<=99)return 2;if(num<=999){let w=1,r=num%100;if(r>0)w+=countWordsInNumber(r);return w}if(num<=9999){let t=Math.floor(num/1000),r=num%1000,w=countWordsInNumber(t)+1;if(r>0)w+=countWordsInNumber(r);return w}if(num<=999999){let t=Math.floor(num/1000),r=num%1000,w=countWordsInNumber(t)+1;if(r>0)w+=countWordsInNumber(r);return w}return Math.floor(num.toString().length/2)+2}
-function countWords(t){if(!t)return 0;t=t.replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g,'-').replace(/[\u00A0\u202F]/g,' ').replace(/[\u200B\u200C\u200D]/g,'');t=t.replace(/([№$#@%€£¥₽°=])/g,' $1 ');t=t.replace(/\b\d+([.,]\d+)?\b/g,m=>{const n=m.replace(/[.,]/g,'');return ' СЛОВО '.repeat(countWordsInNumber(n)).trim()});t=t.replace(/-/g,' ').replace(/[^\wа-яА-ЯёЁ\s]/g,' ').replace(/\s+/g,' ').trim();return t.split(' ').filter(w=>w.trim()!=='').length}
+function countWords(t){if(!t)return 0;t=t.replace(/[\u2010\u2011\u2012\u2013\u2014\u2212]/g,'-').replace(/[\u00A0\u202F]/g,' ').replace(/[\u200B\u200C\u200D]/g,'');t=t.replace(/([№$#@%€£¥₽°=])/g,' $1 ');t=t.replace(/\b\d+([.,]\d+)?\b/g,m=>{const n=m.replace(/[.,]/g,'');return ' СЛОВО '.repeat(countWordsInNumber(n)).trim()});t=t.replace(/['\u2019]/g,'').replace(/-/g,' ').replace(/[^\wа-яА-ЯёЁ\s]/g,' ').replace(/\s+/g,' ').trim();return t.split(' ').filter(w=>w.trim()!=='').length}
 function countChars(t){return t?t.replace(/\s/g,'').length:0}
 function roundToHundred(v,min=500){return Math.max(min,Math.floor((parseInt(v)+50)/100)*100)}
 function calcTextPrice(w){const m=Math.max(1,Math.ceil(w/125));const rate=m>60?180:m>=10?200:250;return Math.max(500,m*rate)}
