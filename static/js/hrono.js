@@ -46,9 +46,9 @@
       return text.replace(/\s/g, '').length;
     }
 
-    const WPM_SLOW   = 110;
-    const WPM_MEDIUM = 125;
-    const WPM_FAST   = 140;
+    const WPM_MAIN = 125;
+    const WPM_SLOW = 110;
+    const WPM_FAST = 140;
     const AUTHOR_SHEET_CHARS = 40000;
 
     function roundToHundred(value, minimum = 500) {
@@ -190,8 +190,8 @@
       const wrap      = input.closest('.hronomer-textarea-wrap');
       const clearBtn  = document.getElementById('hronomer-clear');
       const sampleBtn = document.getElementById('hronomer-sample');
+      const tMain     = document.getElementById('hronomer-timing-main');
       const tSlow     = document.getElementById('hronomer-timing-slow');
-      const tMedium   = document.getElementById('hronomer-timing-medium');
       const tFast     = document.getElementById('hronomer-timing-fast');
       const words     = document.getElementById('hronomer-words');
       const chars     = document.getElementById('hronomer-chars');
@@ -238,17 +238,17 @@
         sheets.textContent  = (charCount / AUTHOR_SHEET_CHARS).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         if (wordCount > 0) {
+          tMain.textContent   = formatTime(wordCount * 60 / WPM_MAIN);
           tSlow.textContent   = formatTime(wordCount * 60 / WPM_SLOW);
-          tMedium.textContent = formatTime(wordCount * 60 / WPM_MEDIUM);
           tFast.textContent   = formatTime(wordCount * 60 / WPM_FAST);
-          currentMinutes      = Math.ceil(wordCount / WPM_SLOW);
+          currentMinutes      = Math.ceil(wordCount / WPM_MAIN);
           calcMinutes.value   = currentMinutes;
           recalcRate();
           const result = calculatePrice('voice_text', wordCount);
           price.textContent = result.priceNormal.toLocaleString('ru-RU');
         } else {
+          tMain.textContent   = '00:00';
           tSlow.textContent   = '00:00';
-          tMedium.textContent = '00:00';
           tFast.textContent   = '00:00';
           price.textContent   = '—';
           calcMinutes.value   = '';
