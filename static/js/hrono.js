@@ -46,6 +46,11 @@
       return text.replace(/\s/g, '').length;
     }
 
+    const WPM_SLOW   = 110;
+    const WPM_MEDIUM = 125;
+    const WPM_FAST   = 140;
+    const AUTHOR_SHEET_CHARS = 40000;
+
     function roundToHundred(value, minimum = 500) {
       return Math.max(minimum, Math.floor((parseInt(value) + 50) / 100) * 100);
     }
@@ -191,6 +196,7 @@
       const words     = document.getElementById('hronomer-words');
       const chars     = document.getElementById('hronomer-chars');
       const charsNS   = document.getElementById('hronomer-chars-nospace');
+      const sheets    = document.getElementById('hronomer-author-sheets');
       const price     = document.getElementById('hronomer-price');
       const calcTotal   = document.getElementById('hronomer-calc-total');
       const calcMinutes = document.getElementById('hronomer-calc-minutes');
@@ -229,12 +235,13 @@
         words.textContent   = wordCount;
         chars.textContent   = charCount;
         charsNS.textContent = charNoSpace;
+        sheets.textContent  = (charCount / AUTHOR_SHEET_CHARS).toLocaleString('ru-RU', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         if (wordCount > 0) {
-          tSlow.textContent   = formatTime(wordCount * 60 / 125);
-          tMedium.textContent = formatTime(wordCount * 60 / 150);
-          tFast.textContent   = formatTime(wordCount * 60 / 180);
-          currentMinutes      = Math.ceil(wordCount / 125);
+          tSlow.textContent   = formatTime(wordCount * 60 / WPM_SLOW);
+          tMedium.textContent = formatTime(wordCount * 60 / WPM_MEDIUM);
+          tFast.textContent   = formatTime(wordCount * 60 / WPM_FAST);
+          currentMinutes      = Math.ceil(wordCount / WPM_SLOW);
           calcMinutes.value   = currentMinutes;
           recalcRate();
           const result = calculatePrice('voice_text', wordCount);
