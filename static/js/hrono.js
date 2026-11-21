@@ -79,11 +79,7 @@
           var html = document.documentElement;
           html.classList.add('theme-transition');
           setTimeout(function () { html.classList.remove('theme-transition'); }, 500);
-          if (e.matches) {
-            html.setAttribute('data-theme', 'light');
-          } else {
-            html.removeAttribute('data-theme');
-          }
+          html.setAttribute('data-theme', e.matches ? 'light' : 'dark');
         }
       });
     }
